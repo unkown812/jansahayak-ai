@@ -331,7 +331,7 @@ Constituency Health Score: **68 / 100**
             id="briefing-text-print-area"
             style={{
               flexGrow: 1,
-              background: '#09090b',
+              background: '#ffffff',
               border: '1px solid var(--border-color)',
               borderRadius: '12px',
               padding: '24px',

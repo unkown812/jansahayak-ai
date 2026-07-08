@@ -70,38 +70,6 @@ export default function Footer() {
             <span style={{ fontSize: '0.75rem', color: 'var(--muted)' }}>Documentation</span>
             <span style={{ fontSize: '0.75rem', color: 'var(--muted)' }}>API</span>
           </div>
-
-          {/* Company */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            <span style={{ fontSize: '0.75rem', fontWeight: 500, color: 'var(--ink)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-              Hackathon
-            </span>
-            <a
-              href="https://hack2skill.com/event/codeforcommunities/"
-              target="_blank"
-              rel="noreferrer"
-              style={{
-                ...linkStyle,
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '4px',
-                color: 'var(--link)',
-              }}
-            >
-              Event Details <ExternalLink size={10} />
-            </a>
-            <span style={{ fontSize: '0.75rem', color: 'var(--muted)' }}>Code for Communities</span>
-            <span style={{ fontSize: '0.75rem', color: 'var(--muted)' }}>Host: Hack2Skill</span>
-          </div>
-
-          {/* Legal */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            <span style={{ fontSize: '0.75rem', fontWeight: 500, color: 'var(--ink)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-              Legal
-            </span>
-            <span style={{ fontSize: '0.75rem', color: 'var(--muted)' }}>Privacy</span>
-            <span style={{ fontSize: '0.75rem', color: 'var(--muted)' }}>Terms</span>
-          </div>
         </div>
 
         {/* Divider */}

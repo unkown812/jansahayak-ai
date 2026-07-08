@@ -234,9 +234,6 @@ function MainAppContent() {
         )
       )}
 
-      {/* Floating Demo Event Simulator */}
-      <EventSimulator />
-
       {/* Website Footer */}
       <Footer />
     </div>

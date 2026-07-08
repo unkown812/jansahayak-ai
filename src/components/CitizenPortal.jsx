@@ -4,7 +4,7 @@ import TrendingIssues from './TrendingIssues';
 import { MapContainer, TileLayer, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { Mic, MicOff, Sparkles, Send, CheckCircle2, RotateCcw, AlertTriangle, Languages, Navigation, Users, LifeBuoy, ThumbsUp, MessageSquare, TrendingUp } from 'lucide-react';
+import { Mic, MicOff, Sparkles, Send, CheckCircle2, RotateCcw, AlertTriangle, Languages, Navigation, Users, LifeBuoy, ThumbsUp, MessageSquare, TrendingUp, LogIn, User, X } from 'lucide-react';
 
 function DraggableMarker({ position, onMove }) {
   const map = useMap();
@@ -38,10 +38,46 @@ function MapCenterUpdater({ position }) {
 }
 
 export default function CitizenPortal() {
-  const { addGrievance, geminiApiKey, grievances, supportGrievance, reportQualityIssue, citizenSubTab, setCitizenSubTab, theme } = useApp();
+  const { addGrievance, geminiApiKey, grievances, supportGrievance, reportQualityIssue, citizenSubTab, setCitizenSubTab, theme, signInWithGoogle, user } = useApp();
+
+  // Citizen auth state
+  const [citizenSignedIn, setCitizenSignedIn] = useState(() => {
+    return !!localStorage.getItem('js_citizen_signed_in');
+  });
+  const [authLoading, setAuthLoading] = useState(false);
+  const [authError, setAuthError] = useState('');
+
+  const handleCitizenGoogleSignIn = async () => {
+    setAuthError('');
+    setAuthLoading(true);
+    try {
+      await signInWithGoogle();
+      localStorage.setItem('js_citizen_signed_in', 'true');
+      setCitizenSignedIn(true);
+      if (user?.displayName) {
+        setReporterName(user.displayName);
+        localStorage.setItem('js_reporter_name', user.displayName);
+      }
+    } catch (err) {
+      setAuthError(err.message || 'Authentication failed.');
+    }
+    setAuthLoading(false);
+  };
+
+  const handleCitizenAnonymous = () => {
+    localStorage.setItem('js_citizen_signed_in', 'true');
+    setCitizenSignedIn(true);
+  };
+
+  const handleCitizenSignOut = () => {
+    localStorage.removeItem('js_citizen_signed_in');
+    setCitizenSignedIn(false);
+  };
 
   // Form states
-  const [reporterName, setReporterName] = useState('');
+  const [reporterName, setReporterName] = useState(() => {
+    return localStorage.getItem('js_reporter_name') || '';
+  });
 
   const [sector, setSector] = useState('Infrastructure');
   const [urgency, setUrgency] = useState('Medium');
@@ -180,8 +216,6 @@ export default function CitizenPortal() {
       { enableHighAccuracy: true, timeout: 6000, maximumAge: 0 }
     );
   };
-
-
 
   // Mock stream or Live Gemini AI refiner
   const refineWithAI = async () => {
@@ -471,6 +505,69 @@ SUMMARY: [A concise, professional 2-3 sentence English summary explaining the pr
     );
   };
 
+  // Sign-in gate
+  if (!citizenSignedIn) {
+    return (
+      <div style={{ padding: '60px 20px', maxWidth: '440px', margin: '0 auto', minHeight: '70vh', display: 'flex', alignItems: 'center' }}>
+        <div className="glass-panel" style={{ padding: '40px 32px', backgroundColor: 'var(--bg-secondary)', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-lg)', width: '100%' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '16px', marginBottom: '32px' }}>
+            <div style={{ display: 'inline-flex', padding: '16px', borderRadius: '50%', border: '1px solid var(--border-color)', color: 'var(--primary)' }}>
+              <LogIn size={32} />
+            </div>
+            <h2 style={{ fontSize: '1.5rem', fontWeight: 600, margin: 0, textAlign: 'center' }}>
+              Citizen Portal
+            </h2>
+            <p style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', textAlign: 'center', margin: 0, lineHeight: 1.5 }}>
+              Sign in to submit grievances, track your issues, and support community priorities in your constituency.
+            </p>
+          </div>
+
+          {authError && (
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 12px', borderRadius: 'var(--radius-sm)', background: 'var(--danger-bg)', border: '1px solid var(--danger-border)', color: 'var(--danger)', fontSize: '0.75rem', marginBottom: '16px' }}>
+              <AlertTriangle size={14} style={{ flexShrink: 0 }} />
+              <span>{authError}</span>
+            </div>
+          )}
+
+          <button
+            onClick={handleCitizenGoogleSignIn}
+            disabled={authLoading}
+            className="btn btn-primary"
+            style={{ width: '100%', padding: '14px', fontSize: '0.875rem', fontWeight: 500, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px', cursor: authLoading ? 'not-allowed' : 'pointer', opacity: authLoading ? 0.8 : 1, marginBottom: '12px' }}
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24">
+              <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+              <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+              <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05"/>
+              <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335"/>
+            </svg>
+            <span>{authLoading ? 'Signing in...' : 'Continue with Google'}</span>
+          </button>
+
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
+            <div style={{ flex: 1, height: '1px', backgroundColor: 'var(--border-color)' }} />
+            <span style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>or</span>
+            <div style={{ flex: 1, height: '1px', backgroundColor: 'var(--border-color)' }} />
+          </div>
+
+          <button
+            onClick={handleCitizenAnonymous}
+            disabled={authLoading}
+            className="btn"
+            style={{ width: '100%', padding: '12px', fontSize: '0.875rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', cursor: authLoading ? 'not-allowed' : 'pointer' }}
+          >
+            <User size={16} />
+            Continue as Anonymous
+          </button>
+
+          <p style={{ fontSize: '0.7rem', color: 'var(--text-tertiary)', textAlign: 'center', marginTop: '24px', lineHeight: 1.4 }}>
+            Your data is handled securely. Anonymous users can still submit and track grievances using a local identifier.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   if (submittedTicket) {
     return (
       <div style={{ padding: '40px 20px', maxWidth: '600px', margin: '0 auto', textAlign: 'center' }}>
@@ -517,6 +614,29 @@ SUMMARY: [A concise, professional 2-3 sentence English summary explaining the pr
 
   return (
     <div style={{ padding: '40px 20px', maxWidth: '900px', margin: '0 auto' }}>
+      {/* User Info Bar */}
+      <div className="glass-panel" style={{ padding: '10px 16px', backgroundColor: 'var(--bg-tertiary)', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-md)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <div style={{ display: 'inline-flex', padding: '6px', borderRadius: '50%', backgroundColor: 'var(--primary-bg)', color: 'var(--primary)' }}>
+            <User size={14} />
+          </div>
+          <span style={{ fontSize: '0.85rem', fontWeight: 500 }}>
+            {user?.displayName || (localStorage.getItem('js_reporter_name') || 'Anonymous Citizen')}
+          </span>
+          {user?.email && (
+            <span style={{ fontSize: '0.7rem', color: 'var(--text-tertiary)' }}>({user.email})</span>
+          )}
+        </div>
+        <button
+          onClick={handleCitizenSignOut}
+          className="btn"
+          style={{ padding: '4px 10px', fontSize: '0.75rem', display: 'flex', alignItems: 'center', gap: '4px', cursor: 'pointer' }}
+          title="Sign out"
+        >
+          <X size={12} /> Sign Out
+        </button>
+      </div>
+
       {/* Tab Navigation */}
       <div
         className="glass-panel"

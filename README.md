@@ -9,6 +9,8 @@
 [![Web Speech API](https://img.shields.io/badge/Web_Speech_API-HTML5_Speech-EFD81D?style=for-the-badge&logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API)
 [![dnd-kit](https://img.shields.io/badge/%40dnd--kit-Drag_--_Drop-FF5722?style=for-the-badge)](https://dndkit.com/)
 [![Gemini AI Integration](https://img.shields.io/badge/Gemini_AI-Google_DeepMind-4285F4?style=for-the-badge&logo=google&logoColor=white)](https://deepmind.google/technologies/gemini/)
+[![Firebase](https://img.shields.io/badge/Firebase-Auth_%2B_Firestore-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)](https://firebase.google.com/)
+[![Leaflet](https://img.shields.io/badge/Leaflet-OpenStreetMap-199900?style=for-the-badge&logo=leaflet&logoColor=white)](https://leafletjs.com/)
 [![Render Deploy](https://img.shields.io/badge/Render-Live_Static_Site-46E3B7?style=for-the-badge&logo=render&logoColor=white)](https://JanSahayak-ai.onrender.com)
 [![License MIT](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](LICENSE)
 
@@ -16,169 +18,200 @@
 
 ---
 
-## 🚀 Live Site
+## Live Site
 Access the hosted simulation here: **[https://JanSahayak-ai.onrender.com](https://JanSahayak-ai.onrender.com)**
 
 ---
 
-## 📅 Hackathon Context
-JanSahayak AI was specifically built for the **Build with AI: Code for Communities** Hackathon (supported by Google Cloud) on the **Hack2Skill** platform.
+## Hackathon Context
+JanSahayak AI was built for the **Build with AI: Code for Communities** Hackathon (supported by Google Cloud) on the **Hack2Skill** platform.
 
 *   **Track:** People's Priorities (AI for Constituency Development Planning)
 
-### **The Problem**
-> "MPs receive development requests through public meetings, letters, social media, grievance portals, and direct representations — while local development plans contain dozens of competing proposed projects. There's no objective way to consolidate citizen feedback, spot recurring needs, and weigh competing proposals against real demand (for example, comparing requests for school upgrades against enrollment and travel-distance data versus a proposed vocational centre)."
+### The Problem
+> "MPs receive development requests through public meetings, letters, social media, grievance portals, and direct representations — while local development plans contain dozens of competing proposed projects. There's no objective way to consolidate citizen feedback, spot recurring needs, and weigh competing proposals against real demand."
 
-### **The Challenge**
+### The Challenge
 > "Build a multilingual AI platform where citizens can submit development suggestions via voice, text, photos, or messaging apps. The system should analyze submissions to surface recurring themes, map demand hotspots, and combine citizen feedback with demographic data, infrastructure gaps, local development plans, and public datasets — to recommend and rank high-priority development works an MP can act on."
 
 ---
 
-## 💡 How JanSahayak AI Solves This
-JanSahayak AI bridges the gap between constituency feedback and municipal resource scheduling through four key interfaces:
+## How JanSahayak AI Solves This
 
-### 1. Home Page
-*   Provides an immediate summary of the platform's pillars.
-*   Enables clear call-to-actions to route users to either the **Citizen Portal** or the secure **Command Center**.
+### 1. Citizen Portal (Inclusive Input)
+*   **Multilingual Voice Grievance Filing** — HTML5 Web Speech API supports dictation in **Hindi (hi-IN)** and **English (India)**.
+*   **AI Transcription & Translation** — Google Gemini 2.5 Flash translates Hindi grievances into structured English, infers department/sector (Infrastructure, Water Supply, Sanitation, Public Health, Heritage/Tourism, Transport), and grades urgency.
+*   **Geolocation** — Pin-drop on a Leaflet map (OpenStreetMap), GPS location sharing, or landmark search via Nominatim geocoder.
+*   **Community Support** — Citizens can support/upvote grievances, track their own tickets, and report quality issues on resolved work.
+*   **Trending Issues** — Real-time view of most-supported grievances across the constituency.
 
-### 2. About Page
-*   Integrates the hackathon details, problem statements, and technical details verbatim.
-*   Lays out the technical architecture and tech stack choices clearly.
+### 2. MP Command Center Dashboard (5 Workspaces)
 
-### 3. Citizen Portal (Inclusive Input)
-*   **Web Speech Recognition:** Supports voice dictation in **Hindi (हिंदी)** and **English (India)** using HTML5 Speech APIs.
-*   **AI Transcription & Translation Refiner:** Automatically transcribes voice complaints. If dictation is done in Hindi, the mock-AI engine translates it into structured English, infers the relevant department/sector (Infrastructure, Water Supply, Sanitation, Public Health, Heritage/Tourism, Transport), and grades the ticket's urgency level.
+| Workspace | Description |
+| :--- | :--- |
+| **Grievance Command Panel** | KPI grid (satisfaction rate, active grievances, budget utilization, work projects, quality control), interactive Leaflet map with color-coded pins, searchable/filterable grievance table with pagination, detail inspector panel with status management. |
+| **Resource Optimizer** | Drag-and-drop project prioritization (via `@dnd-kit`), budget cap enforcement (₹1.0 Cr / 100 Lakhs), auto-sort by community priority, Gantt chart timeline visualization, AI auto-project planner. |
+| **AI Strategic Advisor** | Generates a full strategic constituency briefing using Gemini API — health score, bottleneck analysis, budget recommendations with trade-off analysis, and administrative directives. |
+| **Social Gripe Ingestor** | Sample social media posts that can be ingested as formal grievances with AI-powered structuring. |
+| **Quality Control Dashboard** | Tracks re-open rates, resolution times, maintenance reports; allows work order creation for flagged issues. |
 
-### 4. Command Center Dashboard (Spatial & Analytic Planning)
-*   **Secure Access Gate:** Access to administrative pages is locked behind a glassmorphic simulated login window (`admin` / `password` or a single-click Demo login) to protect official constituency data.
-*   **Interactive 6-Ward SVG Map:** Displays color-coded wards indicating grievance density and satisfaction indices. Overlays interactive coordinates representing localized citizen complaints.
-*   **Visual Charts Grid (Apache ECharts):** Displays weekly trends, department distribution bars, and budget allocation donuts that recalculate live.
-*   **Official Directives Generator:** Slide-out panel allows the MP to review translations, draft official directives (simulated streaming text), and export complaints into formal projects.
-*   **Resource Optimizer:** Utilizes drag-and-drop sequencing (via `@dnd-kit`) to sort projects. Automatically alerts the administrator when projects exceed the ₹1.0Cr MP Local Area Development fund limit and charts active works sequentially on a Gantt timeline.
+### 3. Demo Event Simulator
+Floating trigger that simulates monsoon storms, water pipeline failures, or election scenarios — injecting mock grievances into the system for demonstration.
 
 ---
 
-## 📂 Project Repository Structure
-
-Below is the directory and file tree of the JanSahayak AI codebase, detailing the responsibility of each file:
+## Project Repository Structure
 
 ```text
 JanSahayak-AI/
-├── index.html                   # HTML template containing Google Font preconnects and SEO Meta / OG Tags
-├── vite.config.js               # Vite configurations for React and bundler compiling
-├── package.json                 # Project dependencies, build tasks, and metadata configurations
+├── index.html                   # HTML template with SEO meta tags, Open Graph, Google Fonts
+├── vite.config.js               # Vite config with React plugin
+├── package.json                 # Dependencies, scripts, metadata
+├── .env.example                 # Environment variable template
+├── .firebaserc                  # Firebase project alias (jansahayak-ai-45d04)
+├── firebase.json                # Firebase config (Firestore asia-south1, Auth providers)
+├── firestore.rules              # Firestore security rules
+├── firestore.indexes.json       # Firestore composite indexes
+├── .oxlintrc.json               # Oxlint linter configuration
+├── LICENSE                      # MIT License
+│
+├── public/
+│   ├── favicon.svg
+│   └── icons.svg
+│
 ├── src/
-│   ├── main.jsx                 # Client entry point mounting App to the DOM
-│   ├── App.jsx                  # Main component handling state-driven page routing and viewport layouts
-│   ├── index.css                # Global CSS variables, scrollbars, glass-effects, and mobile stacking rules
+│   ├── main.jsx                 # React entry point
+│   ├── App.jsx                  # Root component with page routing
+│   ├── App.css                  # App-level styles
+│   ├── index.css                # Global CSS (HSL variables, glassmorphism, responsive rules)
+│   ├── firebase.js              # Firebase init (Auth + Firestore)
 │   │
 │   ├── context/
-│   │   └── AppContext.jsx       # State Provider managing grievances, budgets, login/logout, theme, and simulator hooks
+│   │   └── AppContext.jsx       # Global state: grievances, budgets, auth, theme, simulator
+│   │
+│   ├── assets/
+│   │   ├── hero.png
+│   │   ├── react.svg
+│   │   └── vite.svg
 │   │
 │   └── components/
-│       ├── Header.jsx           # Top navbar with ticker alert marquee, theme toggle, and settings modal
-│       ├── Footer.jsx           # Bottom footer containing navigation tabs, hackathon links, and copyrights
-│       ├── LandingPage.jsx      # Portal gateway hero section with descriptive pillars and CTA buttons
-│       ├── AboutPage.jsx        # Project case-study outlining the verbatim problem statement and tech details
-│       ├── LoginPortal.jsx      # Glassmorphic admin sign-in portal with prefilled demo credentials
-│       ├── CitizenPortal.jsx    # Grievance filing panel with speech recognition and AI Translation refiners
-│       ├── ConstituencyMap.jsx  # Interactive SVG representation of 6 wards with hover overlays and pinpoint coords
-│       ├── KpiGrid.jsx          # KPI analytics panel rendering ECharts sparklines and budget donuts
-│       ├── GrievanceTable.jsx   # List panel with search filters, sorting, pagination, and mobile column hiding
-│       ├── DetailPanel.jsx      # Inspector card with streaming directive generators and work order creators
-│       ├── Optimizer.jsx        # Project scheduling queue with drag-and-drop handles and Gantt charts
-│       └── EventSimulator.jsx   # Sticky trigger drawer to simulate monsoon storms or utility pipe failures
+│       ├── Header.jsx           # Sticky nav with theme toggle, Gemini status, settings
+│       ├── Footer.jsx           # Multi-column footer with navigation & hackathon links
+│       ├── LandingPage.jsx      # Hero section with feature cards & CTAs
+│       ├── AboutPage.jsx        # Hackathon context, problem, solution, tech stack
+│       ├── LoginPortal.jsx      # Glassmorphic admin sign-in (Google OAuth / demo bypass)
+│       ├── CitizenPortal.jsx    # Grievance filing: voice, text, map pin-drop
+│       ├── ConstituencyMap.jsx  # Interactive Leaflet map with color-coded pins
+│       ├── KpiGrid.jsx          # KPI analytics: ECharts sparklines, bar charts, donuts
+│       ├── GrievanceTable.jsx   # Searchable, sortable, paginated grievance list
+│       ├── DetailPanel.jsx      # Inspector card with status management & work orders
+│       ├── Optimizer.jsx        # Drag-and-drop project queue + Gantt timeline
+│       ├── AiAdvisor.jsx        # AI strategic briefing: health score, bottlenecks, directives
+│       ├── SocialIngestor.jsx   # Social media post ingestion as formal grievances
+│       ├── QualityDashboard.jsx # Re-open rates, resolution times, maintenance tracking
+│       ├── TrendingIssues.jsx   # Most-supported grievances across the constituency
+│       └── EventSimulator.jsx   # Floating trigger for demo scenarios
+│
+├── firebase/
+│   ├── firestore.rules          # (symlink/copy) Security rules
+│   └── firestore.indexes.json   # (symlink/copy) Index definitions
+│
+├── supabase/                    # Reference PostgreSQL schema (informational only)
+│   ├── schema.sql
+│   └── rls_policies.sql
+│
+└── dist/                        # Production build output (generated)
 ```
 
 ---
 
-## 🛠️ Detailed Technology Stack & Rationale
+## Technology Stack & Rationale
 
-We selected a lean, modern stack to ensure maximum performance, offline capability, and beautiful visuals:
-
-| Technology / Library | Usage in JanSahayak AI | Rationale for Choice |
+| Technology | Usage | Rationale |
 | :--- | :--- | :--- |
-| **React 19** | Virtual DOM rendering, state hooks, conditional routing. | Offers top-tier performance, declarative components, and updates DOM nodes with minimal paint cost. |
-| **Vite** | Bundler compiling, Hot Module Replacement (HMR). | Scaffolds build assets in milliseconds, providing an extremely fast developer inner loop. |
-| **Vanilla CSS3** | Custom typography, dark/light themes, HSL variables, responsive media queries, and animations. | Ensures total layout flexibility without importing bulky utility frameworks (like Tailwind). Key rules stack tables, overlay sidebars, and stack Gantt charts on mobile viewports. |
-| **Apache ECharts** | Mini KPI trend line graphs, departmental distribution charts, and budget donut charts. | Provides vector canvas-based, high-performance visualizations that automatically adjust canvas scaling on window resizing. |
-| **HTML5 Web Speech API** | Client-side speech-to-text transcription for Hindi and English voices in the Citizen Portal. | Leverages native browser engine capability, eliminating the need for expensive third-party speech API call limits. |
-| **dnd-kit** | Prioritized project ordering handles in the Resource Optimizer. | Modular pointer/touch listener sensors that render physics-based draggable elements with zero layout shift. |
-| **Lucide React** | Consistent UI icons (Shields, Keys, Maps, Dials, Alert flags). | Fully customizable SVG vectors that scale sharply across mobile and retina displays. |
-| **Render CDNs** | Live cloud static web hosting. | Automatically trigger builds on git pushes, deploying minified files on a global server network. |
+| **React 19** | Virtual DOM, hooks, conditional routing | Top-tier performance, declarative UI, minimal paint cost |
+| **Vite 8** | Bundler, HMR, build tool | Millisecond-scaffold builds, fast developer inner loop |
+| **Vanilla CSS3** | Custom typography, dark/light themes, HSL variables, glassmorphism | Full layout flexibility without bulky utility frameworks |
+| **Apache ECharts** | KPI sparklines, department bar charts, budget donuts | Vector canvas visualizations that auto-scale on window resize |
+| **Leaflet + react-leaflet** | Interactive constituency map with grievance pins | Lightweight, free (OpenStreetMap), no API key required |
+| **HTML5 Web Speech API** | Client-side Hindi & English speech-to-text | Native browser capability, no third-party API costs |
+| **dnd-kit** | Drag-and-drop project prioritization | Modular pointer/touch sensors with zero layout shift |
+| **Firebase Auth** | Google OAuth + email/password sign-in | Managed auth with built-in security rules |
+| **Firebase Firestore** | Real-time grievance, project, and user data | Live syncing across sessions without a backend server |
+| **Google Gemini 2.5 Flash** | AI transcription, translation, strategic advisory, directive generation | Low-latency, multilingual capable, cost-efficient |
+| **react-markdown + remark-gfm** | AI report rendering | Safe markdown rendering for AI-generated briefings |
+| **Lucide React** | Consistent SVG icon set | Sharp, scalable vectors across all screen densities |
+| **Oxlint** | Rust-based linter | Blazing-fast linting with zero config overhead |
+| **Render CDNs** | Static site hosting | Auto-deploy on git push, global CDN |
 
 ---
 
-## 🎨 Design System & Aesthetics
-*   **Modern Zinc theme:** Styled with dark and light variants that are toggled on the fly.
-*   **Glassmorphic components:** Cards utilize a high-quality HSL background blur, transparent border colors, and soft gradient glows.
-*   **Micro-animations:** Glow pulses, sliding panels, and streaming characters make the dashboard feel alive.
-*   **Responsiveness First:** Custom media queries ensure layouts stack cleanly on mobile viewports:
-    *   Secondary table columns hide automatically on mobile, keeping tables clean.
-    *   Gantt project names stack vertically on top of progress bars on screens below `600px` to maximize space.
-    *   Detail slideouts expand to full-screen overlays to prevent text squishing.
+## Design System & Aesthetics
+*   **Zinc theme** — Dark and light variants toggled on the fly.
+*   **Glassmorphic components** — High-quality HSL background blur, transparent borders, soft gradient glows.
+*   **Micro-animations** — Glow pulses, sliding panels, streaming text for the AI advisor.
+*   **Responsiveness First** — Custom media queries:
+    *   Table columns hide automatically on mobile.
+    *   Gantt project names stack vertically on screens under 600px.
+    *   Detail slideouts expand to full-screen overlays.
 
 ---
 
-## ⚙️ Getting Started & Setup
+## Getting Started & Setup
 
-### **Prerequisites**
-Ensure you have **Node.js** (v18+) and **npm** installed.
+### Prerequisites
+**Node.js** (v18+) and **npm** installed.
 
-### **1. Clone Repository**
+### 1. Clone Repository
 ```bash
 git clone https://github.com/SahooShuvranshu/JanSahayak-AI.git
 cd JanSahayak-AI
 ```
 
-### **2. Install Dependencies**
+### 2. Install Dependencies
 ```bash
 npm install
 ```
 
-### **3. Configure Environment Variables (API Keys)**
-To enable the live Google Maps integration and the real Gemini AI streams, configure your local environment keys:
+### 3. Configure Environment Variables
+Duplicate `.env.example` to `.env` and populate with your keys:
 
-1. **Create a `.env` File:**
-   Duplicate the provided template file `.env.example` in the root directory and rename it to `.env`:
-   ```bash
-   cp .env.example .env
-   ```
+```bash
+cp .env.example .env
+```
 
-2. **Add Your Keys:**
-   Open `.env` and paste your actual keys:
-   ```env
-   VITE_GEMINI_API_KEY=AIzaSyYourGeminiApiKeyHere
-   VITE_GOOGLE_MAPS_API_KEY=AIzaSyYourGoogleMapsApiKeyHere
-   ```
+**Required variables:**
+```env
+VITE_GEMINI_API_KEY=AIzaSyYourGeminiApiKeyHere
+VITE_FIREBASE_API_KEY=your_firebase_api_key
+VITE_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
+VITE_FIREBASE_PROJECT_ID=your_project_id
+VITE_FIREBASE_STORAGE_BUCKET=your_project.appspot.com
+VITE_FIREBASE_DATABASE_URL=your_project.firebaseio.com
+VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
+VITE_FIREBASE_APP_ID=your_app_id
+```
 
-#### **How to obtain your keys:**
-*   **Google Gemini API Key:**
-    1. Visit [Google AI Studio](https://aistudio.google.com/).
-    2. Log in with your Google account.
-    3. Click **"Get API key"** at the top left.
-    4. Click **"Create API Key"** and copy the generated key.
-*   **Google Maps JavaScript API Key:**
-    1. Go to the [Google Cloud Console](https://console.cloud.google.com/).
-    2. Search for and enable the **"Maps JavaScript API"** on your project.
-    3. Navigate to **APIs & Services** > **Credentials**.
-    4. Click **Create Credentials** > **API key** and copy it. *(Recommended: Restrict the key to 'Maps JavaScript API' in credentials settings).*
+#### How to obtain keys:
+*   **Gemini API Key:** [Google AI Studio](https://aistudio.google.com/) → Get API key → Create API key.
+*   **Firebase Config:** [Firebase Console](https://console.firebase.google.com/) → Project settings → General → Your apps → Web app → Copy the config object.
 
----
+> **Note:** Maps use Leaflet + OpenStreetMap (free, no API key). A Google Maps key is no longer required.
 
-### **4. Run Development Server**
+### 4. Run Development Server
 ```bash
 npm run dev
 ```
-Open **[http://localhost:5173](http://localhost:5173)** in your browser.
+Open **[http://localhost:5173](http://localhost:5173)**.
 
-### **5. Compile Production Build**
+### 5. Other Commands
 ```bash
-npm run build
+npm run build     # Production build to dist/
+npm run preview   # Preview production build locally
+npm run lint      # Run Oxlint
 ```
-The optimized minified production assets will be output in the `dist/` directory.
 
 ---
 
-## 🔒 License
+## License
 Distributed under the MIT License. See `LICENSE` for more information.

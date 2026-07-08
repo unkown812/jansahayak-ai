@@ -286,40 +286,7 @@ Do NOT wrap the JSON in markdown code blocks. Just return the raw JSON string.`;
       </div>
 
       {/* Logger Sidebar */}
-      <div className="glass-panel" style={{ padding: '16px', display: 'flex', flexDirection: 'column', gap: '14px', backgroundColor: 'var(--bg-tertiary)', border: '1px solid var(--border-color)', height: 'fit-content' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', borderBottom: '1px solid var(--border-color)', paddingBottom: '10px' }}>
-          <Terminal size={14} style={{ color: 'var(--accent)' }} />
-          <span style={{ fontSize: '0.8rem', fontWeight: 'bold', color: 'var(--text-primary)' }}>Ingestion Logger</span>
-        </div>
-
-        <div style={{
-          height: '280px',
-          overflowY: 'auto',
-          backgroundColor: '#09090b',
-          fontFamily: 'monospace',
-          fontSize: '0.7rem',
-          padding: '10px',
-          borderRadius: '4px',
-          color: '#10b981',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '8px'
-        }}>
-          {logs.length > 0 ? (
-            logs.map((log, index) => (
-              <div key={index} style={{ wordBreak: 'break-word', lineHeight: '1.3' }}>{log}</div>
-            ))
-          ) : (
-            <div style={{ color: 'var(--text-tertiary)', textAlign: 'center', marginTop: '100px' }}>
-              Awaiting social media gripe ingestion...
-            </div>
-          )}
-        </div>
-
-        <div style={{ fontSize: '0.65rem', color: 'var(--text-tertiary)', lineHeight: '1.4' }}>
-          <strong style={{ color: 'var(--text-primary)' }}>How it works:</strong> Gemini 1.5 Flash reads Bhubaneswar tweets, parses details, extracts the correct category, maps geolocated coordinates, and creates a Supabase row.
-        </div>
-      </div>
+     
 
     </div>
   );
