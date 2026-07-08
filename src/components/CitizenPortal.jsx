@@ -85,8 +85,22 @@ export default function CitizenPortal() {
 
   // Voice state
   const [isListening, setIsListening] = useState(false);
-  const [speechLanguage, setSpeechLanguage] = useState('hi-IN'); // Default to Hindi
+  const [speechLanguage, setSpeechLanguage] = useState('hi-IN');
   const [speechError, setSpeechError] = useState('');
+
+  const supportedLanguages = [
+    { code: 'hi-IN', label: 'Hindi (हिंदी)' },
+    { code: 'bn-IN', label: 'Bengali (বাংলা)' },
+    { code: 'te-IN', label: 'Telugu (తెలుగు)' },
+    { code: 'mr-IN', label: 'Marathi (मराठी)' },
+    { code: 'ta-IN', label: 'Tamil (தமிழ்)' },
+    { code: 'gu-IN', label: 'Gujarati (ગુજરાતી)' },
+    { code: 'kn-IN', label: 'Kannada (ಕನ್ನಡ)' },
+    { code: 'ml-IN', label: 'Malayalam (മലയാളം)' },
+    { code: 'pa-IN', label: 'Punjabi (ਪੰਜਾਬੀ)' },
+    { code: 'or-IN', label: 'Odia (ଓଡ଼ିଆ)' },
+    { code: 'en-IN', label: 'English (India)' },
+  ];
 
   // AI Refinement state
   const [isRefining, setIsRefining] = useState(false);
@@ -104,44 +118,54 @@ export default function CitizenPortal() {
 
   const recognitionRef = useRef(null);
 
-  // Initialize Speech Recognition
+  // Initialize Speech Recognition — rebuild on language change
   useEffect(() => {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if (SpeechRecognition) {
-      const rec = new SpeechRecognition();
-      rec.continuous = false;
-      rec.interimResults = false;
-
-      rec.onstart = () => {
-        setIsListening(true);
-        setSpeechError('');
-      };
-
-      rec.onresult = (event) => {
-        const transcript = event.results[0][0].transcript;
-        setDescription((prev) => (prev ? prev + ' ' + transcript : transcript));
-        setIsListening(false);
-      };
-
-      rec.onerror = (event) => {
-        console.error('Speech recognition error:', event.error);
-        setSpeechError(`Voice Error: ${event.error === 'not-allowed' ? 'Microphone permission blocked.' : event.error}`);
-        setIsListening(false);
-      };
-
-      rec.onend = () => {
-        setIsListening(false);
-      };
-
-      recognitionRef.current = rec;
+    if (!SpeechRecognition) {
+      recognitionRef.current = null;
+      return;
     }
-  }, []);
 
-  // Set Language whenever selected language changes
-  useEffect(() => {
     if (recognitionRef.current) {
-      recognitionRef.current.lang = speechLanguage;
+      recognitionRef.current.abort();
     }
+
+    const rec = new SpeechRecognition();
+    rec.continuous = false;
+    rec.interimResults = true;
+    rec.lang = speechLanguage;
+
+    rec.onstart = () => {
+      setIsListening(true);
+      setSpeechError('');
+    };
+
+    rec.onresult = (event) => {
+      let transcript = '';
+      for (let i = event.resultIndex; i < event.results.length; i++) {
+        transcript += event.results[i][0].transcript;
+      }
+      setDescription((prev) => (prev ? prev + ' ' + transcript : transcript));
+    };
+
+    rec.onerror = (event) => {
+      console.error('Speech recognition error:', event.error);
+      setSpeechError(`Voice Error: ${event.error === 'not-allowed' ? 'Microphone permission blocked.' : event.error}`);
+      setIsListening(false);
+    };
+
+    rec.onend = () => {
+      setIsListening(false);
+    };
+
+    recognitionRef.current = rec;
+
+    return () => {
+      rec.abort();
+      if (recognitionRef.current === rec) {
+        recognitionRef.current = null;
+      }
+    };
   }, [speechLanguage]);
 
   const toggleListening = () => {
@@ -253,7 +277,7 @@ export default function CitizenPortal() {
       try {
         const promptParts = [
           {
-            text: `Translate the following Indian language constituency grievance description into structured, professional English and format it as a report. If a photo is attached, analyze the photo to extract details, identify the issue, and verify the complaint. If no description is provided, analyze the photo and generate the description and details based on what you see.
+            text: `Translate the following Indian language constituency grievance description into structured, professional English and format it as a report. The input may be in any of these languages: Hindi, Bengali, Telugu, Marathi, Tamil, Gujarati, Kannada, Malayalam, Punjabi, Odia, or English. If a photo is attached, analyze the photo to extract details, identify the issue, and verify the complaint. If no description is provided, analyze the photo and generate the description and details based on what you see.
             
 Grievance description from citizen: "${description || 'None provided. Describe the problem based on the attached photo.'}"
 
@@ -313,17 +337,18 @@ SUMMARY: [A concise, professional 2-3 sentence English summary explaining the pr
       const lowerInput = description.toLowerCase();
       let impactSuggestion = '50 households';
 
-      if (lowerInput.includes('पानी') || lowerInput.includes('water') || lowerInput.includes('nal')) {
+      // Multi-language water keywords: Hindi, Bengali, Telugu, Marathi, Tamil, Gujarati, Kannada, Malayalam, Punjabi, Odia
+      if (lowerInput.includes('पानी') || lowerInput.includes('পানি') || lowerInput.includes('నీరు') || lowerInput.includes('पाणी') || lowerInput.includes('தண்ணீர்') || lowerInput.includes('પાણી') || lowerInput.includes('ನೀರು') || lowerInput.includes('വെള്ളം') || lowerInput.includes('ਪਾਣੀ') || lowerInput.includes('ପାଣି') || lowerInput.includes('water') || lowerInput.includes('nal') || lowerInput.includes('jala')) {
         sectorSuggestion = 'Water Supply';
-        urgencySuggestion = lowerInput.includes('गंदा') || lowerInput.includes('muddy') || lowerInput.includes('leak') ? 'Critical' : 'Medium';
+        urgencySuggestion = lowerInput.includes('गंदा') || lowerInput.includes('muddy') || lowerInput.includes('leak') || lowerInput.includes('ganda') ? 'Critical' : 'Medium';
         impactSuggestion = '80 households';
         refinedText = `REPORT: Potable Water Supply Impurity\nSTATUS: Unfit for consumption\nSECTOR: Water Supply\nEST. IMPACT: ${impactSuggestion}\n\nSUMMARY: Residents are experiencing contaminated water supply with visible turbidity and heavy odour. Poses immediate enteric public health risk. Urgent sanitization and filter flushing required at local supply mains.`;
-      } else if (lowerInput.includes('कचरा') || lowerInput.includes('garbage') || lowerInput.includes('gandagi')) {
+      } else if (lowerInput.includes('कचरा') || lowerInput.includes('আবর্জনা') || lowerInput.includes('చెత్త') || lowerInput.includes('कचरा') || lowerInput.includes('குப்பை') || lowerInput.includes('કચરો') || lowerInput.includes('ಕಸ') || lowerInput.includes('മാലിന്യം') || lowerInput.includes('ਕੂੜਾ') || lowerInput.includes('ଆବର୍ଜନା') || lowerInput.includes('garbage') || lowerInput.includes('gandagi') || lowerInput.includes('waste') || lowerInput.includes('trash')) {
         sectorSuggestion = 'Sanitation';
         urgencySuggestion = 'Medium';
         impactSuggestion = '120 households';
-        refinedText = `REPORT: Unauthorized Open Garbage Dumping\nSTATUS: Hazardous municipal blockage\nSECTOR: Sanitation\nEST. IMPACT: ${impactSuggestion}\n\nSUMMARY: Heavy accumulation of household and commercial waste on public roadways, attracting stray pests and releasing toxic biogases. Demands immediate sanitation crew dispatch for waste relocation and installation of standard public bins.`;
-      } else if (lowerInput.includes('मच्छर') || lowerInput.includes('mosquito') || lowerInput.includes('phc') || lowerInput.includes('health') || lowerInput.includes('doctor')) {
+        refinedText = `REPORT: Unauthorized Open Garbage Dumping\nSTATUS: Hazardous municipal blockage\nSECTOR: Sanitation\nEST. IMPACT: ${impactSuggestion}\n\nSUMMARY: Heavy accumulation of household and commercial waste on public roadways, attracting stray pests and releasing toxic biogases. Demands immediate sanitation crew dispatch for waste removal and installation of standard public bins.`;
+      } else if (lowerInput.includes('मच्छर') || lowerInput.includes('মশা') || lowerInput.includes('దోమ') || lowerInput.includes('डास') || lowerInput.includes('கொசு') || lowerInput.includes('મચ્છર') || lowerInput.includes('ಸೊಳ್ಳೆ') || lowerInput.includes('കൊതുക്') || lowerInput.includes('ਮੱਛਰ') || lowerInput.includes('ମଶା') || lowerInput.includes('mosquito') || lowerInput.includes('phc') || lowerInput.includes('health') || lowerInput.includes('doctor') || lowerInput.includes('fever') || lowerInput.includes('बुखार')) {
         sectorSuggestion = 'Public Health';
         urgencySuggestion = 'Critical';
         impactSuggestion = '250 residents';
@@ -782,12 +807,13 @@ SUMMARY: [A concise, professional 2-3 sentence English summary explaining the pr
                   <div style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
                     <Languages size={14} />
                     <select
-                      style={{ background: 'transparent', border: 'none', color: 'var(--text-primary)', outline: 'none', cursor: 'pointer' }}
+                      style={{ background: 'transparent', border: 'none', color: 'var(--text-primary)', outline: 'none', cursor: 'pointer', fontSize: '0.75rem', maxWidth: '160px' }}
                       value={speechLanguage}
                       onChange={(e) => setSpeechLanguage(e.target.value)}
                     >
-                      <option value="hi-IN">Hindi (हिंदी)</option>
-                      <option value="en-IN">English (India)</option>
+                      {supportedLanguages.map((lang) => (
+                        <option key={lang.code} value={lang.code}>{lang.label}</option>
+                      ))}
                     </select>
                   </div>
 
