@@ -116,7 +116,7 @@ Your output must include:
 4. ### ADMINISTRATIVE DIRECTIVES
    Recommend exactly 3 official directives the MP should issue to local departments (e.g. Water Board, Sanitation Dept) based on this data.`;
 
-        const response = await fetch(`https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash-lite:generateContent?key=${keyToUse}`, {
+        const response = await fetch(`https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent?key=${keyToUse}`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -188,7 +188,7 @@ Constituency Health Score: **68 / 100**
     const windowUrl = 'about:blank';
     const uniqueName = new Date().getTime();
     const printWindow = window.open(windowUrl, uniqueName, 'left=50,top=50,width=800,height=600');
-    
+
     printWindow.document.write(`
       <html>
         <head>
@@ -220,7 +220,7 @@ Constituency Health Score: **68 / 100**
   return (
     <div className="admin-advisor-container animate-fade-in" style={{ padding: '24px 0' }}>
       <div className="optimizer-grid" style={{ gap: '24px' }}>
-        
+
         {/* Left Column: Briefing Controller */}
         <div className="card-outer" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
           <div>
@@ -346,17 +346,17 @@ Constituency Health Score: **68 / 100**
                 <ReactMarkdown
                   remarkPlugins={[remarkGfm]}
                   components={{
-                    h1: ({node, ...props}) => <h1 style={{ color: 'var(--text-primary)', fontSize: '1.4rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '8px', marginTop: '20px', marginBottom: '12px' }} {...props} />,
-                    h2: ({node, ...props}) => <h2 style={{ color: 'var(--text-primary)', fontSize: '1.25rem', marginTop: '18px', marginBottom: '10px' }} {...props} />,
-                    h3: ({node, ...props}) => <h3 style={{ color: 'var(--text-primary)', fontSize: '1.1rem', marginTop: '16px', marginBottom: '8px' }} {...props} />,
-                    p: ({node, ...props}) => <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', lineHeight: '1.6', margin: '0 0 12px 0' }} {...props} />,
-                    ul: ({node, ...props}) => <ul style={{ paddingLeft: '20px', margin: '0 0 16px 0', listStyleType: 'disc' }} {...props} />,
-                    li: ({node, ...props}) => <li style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', marginBottom: '6px' }} {...props} />,
-                    ol: ({node, ...props}) => <ol style={{ paddingLeft: '20px', margin: '0 0 16px 0', listStyleType: 'decimal' }} {...props} />,
-                    strong: ({node, ...props}) => <strong style={{ color: 'var(--text-primary)', fontWeight: 'bold' }} {...props} />,
-                    table: ({node, ...props}) => <table style={{ width: '100%', borderCollapse: 'collapse', margin: '16px 0', border: '1px solid var(--border-color)' }} {...props} />,
-                    th: ({node, ...props}) => <th style={{ padding: '8px 12px', border: '1px solid var(--border-color)', backgroundColor: 'var(--bg-tertiary)', fontWeight: 'bold', color: 'var(--text-primary)', fontSize: '0.85rem' }} {...props} />,
-                    td: ({node, ...props}) => <td style={{ padding: '8px 12px', border: '1px solid var(--border-color)', color: 'var(--text-secondary)', fontSize: '0.85rem' }} {...props} />
+                    h1: ({ node, ...props }) => <h1 style={{ color: 'var(--text-primary)', fontSize: '1.4rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '8px', marginTop: '20px', marginBottom: '12px' }} {...props} />,
+                    h2: ({ node, ...props }) => <h2 style={{ color: 'var(--text-primary)', fontSize: '1.25rem', marginTop: '18px', marginBottom: '10px' }} {...props} />,
+                    h3: ({ node, ...props }) => <h3 style={{ color: 'var(--text-primary)', fontSize: '1.1rem', marginTop: '16px', marginBottom: '8px' }} {...props} />,
+                    p: ({ node, ...props }) => <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', lineHeight: '1.6', margin: '0 0 12px 0' }} {...props} />,
+                    ul: ({ node, ...props }) => <ul style={{ paddingLeft: '20px', margin: '0 0 16px 0', listStyleType: 'disc' }} {...props} />,
+                    li: ({ node, ...props }) => <li style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', marginBottom: '6px' }} {...props} />,
+                    ol: ({ node, ...props }) => <ol style={{ paddingLeft: '20px', margin: '0 0 16px 0', listStyleType: 'decimal' }} {...props} />,
+                    strong: ({ node, ...props }) => <strong style={{ color: 'var(--text-primary)', fontWeight: 'bold' }} {...props} />,
+                    table: ({ node, ...props }) => <table style={{ width: '100%', borderCollapse: 'collapse', margin: '16px 0', border: '1px solid var(--border-color)' }} {...props} />,
+                    th: ({ node, ...props }) => <th style={{ padding: '8px 12px', border: '1px solid var(--border-color)', backgroundColor: 'var(--bg-tertiary)', fontWeight: 'bold', color: 'var(--text-primary)', fontSize: '0.85rem' }} {...props} />,
+                    td: ({ node, ...props }) => <td style={{ padding: '8px 12px', border: '1px solid var(--border-color)', color: 'var(--text-secondary)', fontSize: '0.85rem' }} {...props} />
                   }}
                 >
                   {briefingText}
