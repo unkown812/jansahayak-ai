@@ -7,7 +7,7 @@
 
 *   **Subtitle:** Empowering Members of Parliament (MPs) with data-driven constituent planning.
 *   **Hackathon Focus:** *People's Priorities (AI for Constituency Development Planning)* track.
-*   **Live App:** https://JanSahayak-ai.onrender.com
+*   **Live App:** [Jansahayak AI](https://jansahayak-ai.netlify.app)
 *   **GitHub:** https://github.com/unkown812/JanSahayak-AI
 *   *Presenter Name & Team Credentials*
 

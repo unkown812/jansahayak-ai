@@ -2,6 +2,12 @@
 
 <div align="center">
 
+![JanSahayak AI Banner](/images/Banner.png)
+
+</div>
+
+<div align="center">
+
 [![React Version](https://img.shields.io/badge/React-19.0-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
 [![Vite Version](https://img.shields.io/badge/Vite-8.1.0-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vite.dev/)
 [![Firebase](https://img.shields.io/badge/Firebase-Auth_%2B_Firestore-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)](https://firebase.google.com/)
@@ -105,9 +111,10 @@ JanSahayak-AI/
 ├── public/
 │   ├── robots.txt             # Search engine crawling rules
 │   ├── sitemap.xml            # XML sitemap
-│   ├── llms.txt              # AI/LLM context file
+│   ├── llms.txt               # AI/LLM context file
 │   ├── favicon.svg
-│   └── hero.png
+│   ├── hero.png               # Hero image / README banner
+│   └── og-image.png           # Open Graph social card (soon)
 └── src/
     ├── main.jsx               # Entry point with structured data injection
     ├── App.jsx                # Root with SPA routing via state
