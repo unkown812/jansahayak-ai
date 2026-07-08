@@ -19,7 +19,7 @@
 ---
 
 ## Live Site
-Access the hosted simulation here: **[https://JanSahayak-ai.onrender.com](https://JanSahayak-ai.onrender.com)**
+Access the hosted simulation here: **https://jansahayak-ai.netlify.app**
 
 ---
 
@@ -164,7 +164,7 @@ JanSahayak-AI/
 
 ### 1. Clone Repository
 ```bash
-git clone https://github.com/SahooShuvranshu/JanSahayak-AI.git
+git clone https://github.com/unkown812/janhayak-ai.git
 cd JanSahayak-AI
 ```
 
