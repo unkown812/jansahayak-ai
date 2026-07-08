@@ -37,39 +37,6 @@ export default function Footer() {
           gridTemplateColumns: '2fr 1fr 1fr 1fr 1fr',
           gap: '24px',
         }}>
-          {/* Brand */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <img src="/favicon.png" alt="JanSahayak AI" style={{ height: '20px', width: '25px' }} />
-              <span style={{ fontWeight: 500, fontSize: '0.875rem', color: 'var(--ink)' }}>
-                JanSahayak AI
-              </span>
-            </div>
-            <p style={{ fontSize: '0.75rem', color: 'var(--muted)', lineHeight: 1.5, margin: 0, maxWidth: '280px' }}>
-              AI-driven spatial analytics and inclusive civic command tools empowering
-              local communities, citizens, and Members of Parliament.
-            </p>
-          </div>
-
-          {/* Platform */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            <span style={{ fontSize: '0.75rem', fontWeight: 500, color: 'var(--ink)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-              Platform
-            </span>
-            <button onClick={() => setActiveTab('landing')} style={linkStyle}>Home</button>
-            <button onClick={() => setActiveTab('citizen')} style={linkStyle}>Citizen Portal</button>
-            <button onClick={() => setActiveTab('mp')} style={linkStyle}>Command Center</button>
-          </div>
-
-          {/* Resources */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            <span style={{ fontSize: '0.75rem', fontWeight: 500, color: 'var(--ink)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-              Resources
-            </span>
-            <button onClick={() => setActiveTab('about')} style={linkStyle}>About</button>
-            <span style={{ fontSize: '0.75rem', color: 'var(--muted)' }}>Documentation</span>
-            <span style={{ fontSize: '0.75rem', color: 'var(--muted)' }}>API</span>
-          </div>
         </div>
 
         {/* Divider */}
