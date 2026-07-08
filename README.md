@@ -18,7 +18,7 @@
 
 **Empowering Members of Parliament with data-driven constituency development planning, AI grievance management, and budget optimization.**
 
-[🌐 Live App](https://jansahayak-ai.netlify.app) · [📖 Documentation](https://github.com/unkown812/janhayak-ai) · [🐛 Report Bug](https://github.com/unkown812/janhayak-ai/issues)
+[🌐 Live App](https://jansahayak-ai.netlify.app) · [🐛 Report Bug](https://github.com/unkown812/janhayak-ai/issues)
 
 </div>
 
