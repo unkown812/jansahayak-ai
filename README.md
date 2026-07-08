@@ -1,4 +1,4 @@
-# JanSahayak AI — AI-Powered Smart Constituency Development Planner & MP Command Center
+# JanSahayak AI — AI-Powered Smart Constituency
 
 <div align="center">
 <a href="https://jansahayak-ai.netlify.app">
