@@ -34,7 +34,7 @@ export default function Header() {
     }}>
       {/* Left: Brand */}
       <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-        <Shield size={20} style={{ color: 'var(--primary)' }} />
+        <img src="/favicon.png" alt="JanSahayak AI" style={{ height: '40px', width: '50px' }} />
         <span style={{ fontSize: '1rem', fontWeight: '500', color: 'var(--ink)' }}>
           JanSahayak <span style={{ color: 'var(--body)' }}>AI</span>
         </span>

@@ -40,7 +40,7 @@ export default function Footer() {
           {/* Brand */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <Shield size={18} style={{ color: 'var(--ink)' }} />
+              <img src="/favicon.png" alt="JanSahayak AI" style={{ height: '20px', width: '25px' }} />
               <span style={{ fontWeight: 500, fontSize: '0.875rem', color: 'var(--ink)' }}>
                 JanSahayak AI
               </span>
