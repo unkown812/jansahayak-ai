@@ -1,0 +1,72 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper function: checks if the authenticated user is an admin
+    function isAdmin() {
+      return request.auth != null
+        && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+
+    // ----- Users collection -----
+    match /users/{userId} {
+      // Anyone authenticated can read user profiles
+      allow read: if request.auth != null;
+      // Users can only create/update their own document
+      allow create, update: if request.auth != null && request.auth.uid == userId;
+      // No deletions via client
+      allow delete: if false;
+    }
+
+    // ----- Grievances collection -----
+    match /grievances/{grievanceId} {
+      // Authenticated users can read all grievances
+      allow read: if request.auth != null;
+
+      // Any authenticated user can create a grievance
+      allow create: if request.auth != null
+        && request.resource.data.reporter == request.auth.uid
+        && request.resource.data.supportCount == 0
+        && request.resource.data.supporters.size() == 0
+        && request.resource.data.qualityReports.size() == 0;
+
+      // Update rules depend on what is being changed
+      allow update: if request.auth != null
+        && (
+          // Admin can update anything
+          isAdmin()
+          ||
+          // Citizen can only increment supportCount, add themselves to supporters,
+          // or add a quality report – and only if they haven't already supported
+          (
+            // Allowed fields for citizen updates
+            request.resource.data.diff(resource.data).affectedKeys()
+              .hasOnly(['supportCount', 'supporters', 'qualityReports'])
+            &&
+            // supportCount must be incremented by exactly 1 if supporters is being changed
+            request.resource.data.supportCount == resource.data.supportCount + 1
+            &&
+            // The citizen is adding their own uid to supporters (not already there)
+            request.resource.data.supporters.diff(resource.data.supporters).affectedKeys()
+              .hasOnly([request.auth.uid])
+            &&
+            // Any added quality report must be created by the citizen
+            (resource.data.qualityReports == request.resource.data.qualityReports ||
+             request.resource.data.qualityReports.diff(resource.data.qualityReports)
+               .addedKeys().every(r => r.reportedBy == request.auth.uid))
+          )
+        );
+
+      // No client-side deletions
+      allow delete: if false;
+    }
+
+    // ----- Projects collection -----
+    match /projects/{projectId} {
+      // Authenticated users can read projects
+      allow read: if request.auth != null;
+      // Only admins can write
+      allow create, update, delete: if isAdmin();
+    }
+  }
+}

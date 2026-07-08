@@ -1,9 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useApp } from '../context/AppContext';
-import { X, Calendar, User, MapPin, AlertCircle, FileText, Send, CheckCircle2, ChevronRight, Copy, Share2, Printer } from 'lucide-react';
+import { X, Calendar, User, FileText, Send, CheckCircle2, Copy, Printer, ThumbsUp, ShieldAlert } from 'lucide-react';
 
 export default function DetailPanel({ grievance, onClose }) {
-  const { updateGrievanceStatus, addProject, projects, geminiApiKey } = useApp();
+  const { updateGrievanceStatus, addProject, projects, geminiApiKey, supportGrievance } = useApp();
+
+  const userId = useMemo(() => localStorage.getItem('js_user_id') || '', []);
+  const alreadySupported = (grievance.supporters || []).includes(userId);
+  const openQualityReports = (grievance.qualityReports || []).filter(r => r.status !== 'closed');
 
   const [status, setStatus] = useState(grievance.status);
   const [streamingText, setStreamingText] = useState('');
@@ -353,7 +357,62 @@ Write in a professional, polite, and reassuring tone. Tell them that their ticke
         </div>
       </div>
 
-      
+      {/* Community Support */}
+      <div className="glass-panel" style={{ padding: '12px', backgroundColor: 'var(--bg-tertiary)', border: '1px solid var(--border-color)' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <ThumbsUp size={14} style={{ color: 'var(--warning)' }} />
+            <span style={{ fontSize: '0.8rem', fontWeight: '500' }}>Community Support</span>
+          </div>
+          <button
+            onClick={() => !alreadySupported && supportGrievance(grievance.id, userId)}
+            disabled={alreadySupported}
+            className="btn"
+            style={{
+              fontSize: '0.75rem',
+              padding: '4px 10px',
+              border: `1px solid ${alreadySupported ? 'var(--success-border)' : 'var(--border-color)'}`,
+              backgroundColor: alreadySupported ? 'var(--success-bg)' : 'transparent',
+              color: alreadySupported ? 'var(--success)' : 'var(--text-primary)',
+              cursor: alreadySupported ? 'default' : 'pointer',
+            }}
+          >
+            <ThumbsUp size={12} />
+            {alreadySupported ? `Supported ✓ (${grievance.supportCount || 0})` : `Support (${grievance.supportCount || 0})`}
+          </button>
+        </div>
+      </div>
+
+      {/* Quality Reports (if any) */}
+      {(grievance.qualityReports || []).length > 0 && (
+        <div>
+          <h3 style={{ fontSize: '0.9rem', marginBottom: '8px', color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <ShieldAlert size={14} style={{ color: 'var(--warning)' }} />
+            Quality Reports ({openQualityReports.length} open)
+          </h3>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+            {(grievance.qualityReports || []).map((r) => (
+              <div key={r.id} className="glass-panel" style={{
+                padding: '8px 12px',
+                backgroundColor: 'var(--bg-tertiary)',
+                border: `1px solid ${r.status === 'open' ? 'var(--danger-border)' : 'var(--success-border)'}`,
+                borderRadius: 'var(--radius-sm)',
+                fontSize: '0.8rem',
+              }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span style={{ fontWeight: '500' }}>{r.description}</span>
+                  <span className={`badge ${r.status === 'open' ? 'badge-danger' : 'badge-success'}`} style={{ fontSize: '0.6rem' }}>
+                    {r.status}
+                  </span>
+                </div>
+                <div style={{ fontSize: '0.7rem', color: 'var(--text-tertiary)', marginTop: '4px' }}>
+                  Reported by {r.reportedBy} on {new Date(r.date).toLocaleDateString()}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Command Actions */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
@@ -382,15 +441,13 @@ Write in a professional, polite, and reassuring tone. Tell them that their ticke
         {status !== 'Resolved' && status !== 'Work Order Created' ? (
           <button
             onClick={handleExportWorkOrder}
-            className="btn btn-primary"
-            style={{
-              fontSize: '0.8rem',
-              padding: '10px',
-              background: 'linear-gradient(135deg, var(--accent), #4f46e5)',
-              border: 'none',
-              width: '100%',
-              marginTop: '4px'
-            }}
+              className="btn btn-primary"
+              style={{
+                fontSize: '0.8rem',
+                padding: '10px',
+                width: '100%',
+                marginTop: '4px'
+              }}
           >
             <CheckCircle2 size={14} /> Generate & Export Work Order
           </button>

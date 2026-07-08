@@ -1,131 +1,135 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
-import { supabase } from '../../supabase/supabaseClient';
+import {
+  collection,
+  doc,
+  addDoc,
+  updateDoc,
+  deleteDoc,
+  onSnapshot,
+  query,
+  orderBy,
+  serverTimestamp,
+  increment,
+  arrayUnion,
+  setDoc,
+} from 'firebase/firestore';
+import { onAuthStateChanged, signInWithPopup, signOut, GoogleAuthProvider } from 'firebase/auth';
+import { db, auth } from '../firebase';
 
 const AppContext = createContext();
 
-const initialGrievances = [];
-const initialProjects = [];
+const mapGrievanceDoc = (doc) => {
+  const data = doc.data();
+  return {
+    id: doc.id,
+    title: data.title || '',
+    description: data.description || '',
+    translatedDescription: data.translated_description || data.description || '',
+    reporter: data.reporter || '',
+    sector: data.sector || '',
+    urgency: data.urgency || '',
+    status: data.status || 'Pending',
+    coordinates: data.coordinates || null,
+    timestamp: data.timestamp?.toDate?.()?.toISOString() || new Date().toISOString(),
+    impact: data.impact || '',
+    resolvedDate: data.resolvedDate?.toDate?.()?.toISOString() || null,
+    qualityReports: data.qualityReports || [],
+    supportCount: data.supportCount || 0,
+    supporters: data.supporters || [],
+  };
+};
+
+const mapProjectDoc = (doc) => {
+  const data = doc.data();
+  return {
+    id: doc.id,
+    name: data.name || '',
+    description: data.description || '',
+    sector: data.sector || '',
+    cost: data.cost || 0,
+    duration: data.duration || 0,
+    status: data.status || 'Queued',
+    priority: data.priority ?? 99,
+    createdAt: data.createdAt?.toDate?.()?.toISOString() || new Date().toISOString(),
+    materials: data.materials || '',
+    isMaintenance: data.isMaintenance || false,
+  };
+};
 
 export const AppProvider = ({ children }) => {
   const [grievances, setGrievances] = useState([]);
   const [projects, setProjects] = useState([]);
+  const [user, setUser] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  // Fetch Grievances and Projects from Supabase on Load
+  // Generate anonymous user ID on first visit
   useEffect(() => {
-    const fetchGrievances = async () => {
-      try {
-        const { data, error } = await supabase
-          .from('grievances')
-          .select('*')
-          .order('timestamp', { ascending: false });
-        if (error) throw error;
-        const mapped = (data || []).map(g => ({
-          ...g,
-          translatedDescription: g.translated_description || g.description
-        }));
-        setGrievances(mapped);
-      } catch (err) {
-        console.error('Error fetching grievances:', err.message);
-      }
-    };
-
-    const fetchProjects = async () => {
-      try {
-        const { data, error } = await supabase
-          .from('projects')
-          .select('*')
-          .order('priority', { ascending: true });
-        if (error) throw error;
-        setProjects(data || []);
-      } catch (err) {
-        console.error('Error fetching projects:', err.message);
-      }
-    };
-
-    fetchGrievances();
-    fetchProjects();
+    if (!localStorage.getItem('js_user_id')) {
+      localStorage.setItem('js_user_id', crypto.randomUUID());
+    }
   }, []);
 
-  
+  // Firebase Auth state listener
+  useEffect(() => {
+    const unsub = onAuthStateChanged(auth, (firebaseUser) => {
+      if (firebaseUser) {
+        setUser(firebaseUser);
+        setIsLoggedIn(true);
+        // Create/update user doc on login
+        const userRef = doc(db, 'users', firebaseUser.uid);
+        setDoc(userRef, {
+          name: firebaseUser.displayName || 'Anonymous',
+          email: firebaseUser.email || '',
+          role: 'citizen',
+          createdAt: serverTimestamp(),
+        }, { merge: true });
+      } else {
+        setUser(null);
+        setIsLoggedIn(false);
+      }
+    });
+    return () => unsub();
+  }, []);
+
+  // Real-time grievances listener
+  useEffect(() => {
+    const q = query(collection(db, 'grievances'), orderBy('timestamp', 'desc'));
+    const unsub = onSnapshot(q, (snapshot) => {
+      const items = snapshot.docs.map(mapGrievanceDoc);
+      setGrievances(items);
+    }, (err) => {
+      console.error('Error fetching grievances:', err.message);
+    });
+    return () => unsub();
+  }, []);
+
+  // Real-time projects listener
+  useEffect(() => {
+    const q = query(collection(db, 'projects'), orderBy('priority', 'asc'));
+    const unsub = onSnapshot(q, (snapshot) => {
+      const items = snapshot.docs.map(mapProjectDoc);
+      setProjects(items);
+    }, (err) => {
+      console.error('Error fetching projects:', err.message);
+    });
+    return () => unsub();
+  }, []);
+
   const [selectedUrgency, setSelectedUrgency] = useState('All');
   const [selectedSector, setSelectedSector] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
-  
+
   const [theme, setTheme] = useState(() => {
     return localStorage.getItem('theme') || 'dark';
   });
 
-  const [activeTab, setActiveTab] = useState('landing'); // 'landing', 'about', 'mp', or 'citizen'
-  
+  const [activeTab, setActiveTab] = useState('landing');
+
   const [geminiApiKey, setGeminiApiKey] = useState(() => {
     return import.meta.env.VITE_GEMINI_API_KEY || localStorage.getItem('gemini_api_key') || '';
   });
 
-  const [googleMapsApiKey, setGoogleMapsApiKey] = useState(() => {
-    return import.meta.env.VITE_GOOGLE_MAPS_API_KEY || localStorage.getItem('google_maps_api_key') || '';
-  });
-
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [user, setUser] = useState(null);
-
-  // Monitor Supabase session and auth state changes
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session) {
-        setUser(session.user);
-        setIsLoggedIn(true);
-      } else {
-        setUser(null);
-        setIsLoggedIn(false);
-      }
-    });
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      if (session) {
-        setUser(session.user);
-        setIsLoggedIn(true);
-      } else {
-        setUser(null);
-        setIsLoggedIn(false);
-      }
-    });
-
-    return () => subscription.unsubscribe();
-  }, []);
-
-  const handleLogin = (username, password) => {
-    // Keep as a simulator fallback
-    setIsLoggedIn(true);
-    return true;
-  };
-
-  const signInWithGoogle = async () => {
-    try {
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider: 'google',
-        options: {
-          redirectTo: window.location.origin
-        }
-      });
-      if (error) throw error;
-    } catch (err) {
-      console.error('Error signing in with Google:', err.message);
-      alert('Authentication error: ' + err.message);
-    }
-  };
-
-  const handleLogout = async () => {
-    try {
-      await supabase.auth.signOut();
-      setIsLoggedIn(false);
-      setUser(null);
-    } catch (err) {
-      console.error('Error signing out:', err.message);
-    }
-  };
-
   // Persist Theme
-
   useEffect(() => {
     localStorage.setItem('theme', theme);
     const rootEl = document.documentElement;
@@ -139,43 +143,62 @@ export const AppProvider = ({ children }) => {
     }
   }, [theme]);
 
-  // Action Handlers
+  const signInWithGoogle = async () => {
+    const provider = new GoogleAuthProvider();
+    try {
+      await signInWithPopup(auth, provider);
+    } catch (err) {
+      console.error('Error signing in with Google:', err.message);
+      alert('Authentication error: ' + err.message);
+    }
+  };
+
+  const handleLogin = () => {
+    setIsLoggedIn(true);
+    return true;
+  };
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      setIsLoggedIn(false);
+      setUser(null);
+    } catch (err) {
+      console.error('Error signing out:', err.message);
+    }
+  };
+
   const addGrievance = async (newTicket) => {
     try {
-      const dbTicket = {
-        id: newTicket.id,
+      await addDoc(collection(db, 'grievances'), {
         title: newTicket.title,
         description: newTicket.description,
         translated_description: newTicket.translatedDescription || newTicket.description,
         reporter: newTicket.reporter,
         sector: newTicket.sector,
         urgency: newTicket.urgency,
-        status: newTicket.status,
-        coordinates: newTicket.coordinates,
-        timestamp: newTicket.timestamp,
-        impact: newTicket.impact
-      };
-      const { error } = await supabase
-        .from('grievances')
-        .insert([dbTicket]);
-      if (error) throw error;
-      setGrievances((prev) => [newTicket, ...prev]);
+        status: newTicket.status || 'Pending',
+        coordinates: newTicket.coordinates || null,
+        timestamp: serverTimestamp(),
+        impact: newTicket.impact || '',
+        resolvedDate: null,
+        qualityReports: [],
+        supportCount: 0,
+        supporters: [],
+      });
     } catch (err) {
       console.error('Error adding grievance:', err.message);
-      alert('Error saving grievance to database: ' + err.message);
+      alert('Error saving grievance: ' + err.message);
     }
   };
 
   const updateGrievanceStatus = async (id, status) => {
     try {
-      const { error } = await supabase
-        .from('grievances')
-        .update({ status })
-        .eq('id', id);
-      if (error) throw error;
-      setGrievances((prev) =>
-        prev.map((g) => (g.id === id ? { ...g, status } : g))
-      );
+      const updateData = { status };
+      if (status === 'Resolved') {
+        updateData.resolvedDate = serverTimestamp();
+      }
+      await updateDoc(doc(db, 'grievances', id), updateData);
     } catch (err) {
       console.error('Error updating grievance status:', err.message);
     }
@@ -184,28 +207,27 @@ export const AppProvider = ({ children }) => {
   const addProject = async (newProj) => {
     try {
       const nextPriority = projects.length;
-      const projectWithPriority = { ...newProj, priority: nextPriority };
-      const { error } = await supabase
-        .from('projects')
-        .insert([projectWithPriority]);
-      if (error) throw error;
-      setProjects((prev) => [...prev, projectWithPriority]);
+      await addDoc(collection(db, 'projects'), {
+        name: newProj.name,
+        description: newProj.description || '',
+        sector: newProj.sector,
+        cost: newProj.cost || 0,
+        duration: newProj.duration || 0,
+        status: newProj.status || 'Queued',
+        priority: nextPriority,
+        createdAt: serverTimestamp(),
+        materials: newProj.materials || '',
+        isMaintenance: newProj.isMaintenance || false,
+      });
     } catch (err) {
       console.error('Error adding project:', err.message);
-      alert('Error saving project to database: ' + err.message);
+      alert('Error saving project: ' + err.message);
     }
   };
 
   const updateProjectStatus = async (id, status) => {
     try {
-      const { error } = await supabase
-        .from('projects')
-        .update({ status })
-        .eq('id', id);
-      if (error) throw error;
-      setProjects((prev) =>
-        prev.map((p) => (p.id === id ? { ...p, status } : p))
-      );
+      await updateDoc(doc(db, 'projects', id), { status });
     } catch (err) {
       console.error('Error updating project status:', err.message);
     }
@@ -213,12 +235,7 @@ export const AppProvider = ({ children }) => {
 
   const deleteProject = async (id) => {
     try {
-      const { error } = await supabase
-        .from('projects')
-        .delete()
-        .eq('id', id);
-      if (error) throw error;
-      setProjects((prev) => prev.filter((p) => p.id !== id));
+      await deleteDoc(doc(db, 'projects', id));
     } catch (err) {
       console.error('Error deleting project:', err.message);
     }
@@ -229,26 +246,67 @@ export const AppProvider = ({ children }) => {
     try {
       const updates = newProjectsList.map((p, index) => ({
         ...p,
-        priority: index
+        priority: index,
       }));
-      const { error } = await supabase
-        .from('projects')
-        .upsert(updates);
-      if (error) throw error;
+      for (const p of updates) {
+        await updateDoc(doc(db, 'projects', p.id), { priority: p.priority });
+      }
     } catch (err) {
       console.error('Error updating project priorities:', err.message);
     }
   };
 
-  // Event Simulator Trigger
+  const [citizenSubTab, setCitizenSubTab] = useState('submit');
+
+  const reportQualityIssue = async (grievanceId, description, reportedBy) => {
+    const report = {
+      id: `QR-${Date.now()}`,
+      date: new Date().toISOString(),
+      description,
+      reportedBy,
+      status: 'open',
+    };
+    try {
+      await updateDoc(doc(db, 'grievances', grievanceId), {
+        qualityReports: arrayUnion(report),
+      });
+    } catch (err) {
+      console.error('Error reporting quality issue:', err.message);
+    }
+  };
+
+  const supportGrievance = async (grievanceId, userId) => {
+    try {
+      await updateDoc(doc(db, 'grievances', grievanceId), {
+        supportCount: increment(1),
+        supporters: arrayUnion(userId),
+      });
+    } catch (err) {
+      console.error('Error supporting grievance:', err.message);
+    }
+  };
+
+  const resolveQualityReport = async (grievanceId, reportId) => {
+    const grievance = grievances.find((g) => g.id === grievanceId);
+    if (!grievance) return;
+    const updatedReports = (grievance.qualityReports || []).map((r) =>
+      r.id === reportId ? { ...r, status: 'closed' } : r
+    );
+    try {
+      await updateDoc(doc(db, 'grievances', grievanceId), {
+        qualityReports: updatedReports,
+      });
+    } catch (err) {
+      console.error('Error resolving quality report:', err.message);
+    }
+  };
+
   const triggerSimulatorEvent = (eventType) => {
-    const nowStr = new Date().toISOString();
     let newTickets = [];
 
     if (eventType === 'monsoon') {
       newTickets = [
         {
-          id: `LKD-${Date.now() + 1}`,
           title: 'Severe Street Flooding at Subway',
           description: 'Rainwater has fully flooded the subway bypass. Vehicles stalled, causing 3km long traffic gridlock.',
           translatedDescription: 'Severe Street Flooding at Subway',
@@ -256,12 +314,10 @@ export const AppProvider = ({ children }) => {
           sector: 'Infrastructure',
           urgency: 'Critical',
           status: 'Pending',
-          coordinates: { x: 55, y: 52 },
-          timestamp: nowStr,
+          coordinates: { lat: 20.3, lng: 85.83 },
           impact: '400+ daily commuters'
         },
         {
-          id: `LKD-${Date.now() + 2}`,
           title: 'Roof Collapse Risk in Old Slum Area',
           description: 'Heavy rains have damaged the support beams of the community center roof. Water leaking from electrical boxes.',
           translatedDescription: 'Roof Collapse Risk in Old Slum Area',
@@ -269,12 +325,10 @@ export const AppProvider = ({ children }) => {
           sector: 'Sanitation',
           urgency: 'Critical',
           status: 'Pending',
-          coordinates: { x: 38, y: 76 },
-          timestamp: nowStr,
+          coordinates: { lat: 20.28, lng: 85.85 },
           impact: '20 families'
         },
         {
-          id: `LKD-${Date.now() + 3}`,
           title: 'Sewer Line Backed Up & Gushing Water',
           description: 'Main drainage pipe near markets overflowing. Raw sewage flooding shop entrances.',
           translatedDescription: 'Sewer Line Backed Up & Gushing Water',
@@ -282,15 +336,13 @@ export const AppProvider = ({ children }) => {
           sector: 'Sanitation',
           urgency: 'Critical',
           status: 'Pending',
-          coordinates: { x: 48, y: 50 },
-          timestamp: nowStr,
+          coordinates: { lat: 20.31, lng: 85.82 },
           impact: '50 shops'
         }
       ];
     } else if (eventType === 'water_failure') {
       newTickets = [
         {
-          id: `LKD-${Date.now() + 1}`,
           title: 'Water Treatment Plant Valve Malfunction',
           description: 'No supply in municipal lines since morning. Local vendors selling water tanks at double prices.',
           translatedDescription: 'Water Treatment Plant Valve Malfunction',
@@ -298,12 +350,10 @@ export const AppProvider = ({ children }) => {
           sector: 'Water Supply',
           urgency: 'Critical',
           status: 'Pending',
-          coordinates: { x: 26, y: 38 },
-          timestamp: nowStr,
+          coordinates: { lat: 20.29, lng: 85.81 },
           impact: 'Entire industrial housing'
         },
         {
-          id: `LKD-${Date.now() + 2}`,
           title: 'Turbid Water Coming Out of Taps',
           description: 'Water has black particles and high chlorine smell. Unusable for drinking or cooking.',
           translatedDescription: 'Turbid Water Coming Out of Taps',
@@ -311,15 +361,13 @@ export const AppProvider = ({ children }) => {
           sector: 'Water Supply',
           urgency: 'Medium',
           status: 'Pending',
-          coordinates: { x: 78, y: 22 },
-          timestamp: nowStr,
+          coordinates: { lat: 20.32, lng: 85.84 },
           impact: '90 households'
         }
       ];
     } else if (eventType === 'elections') {
       newTickets = [
         {
-          id: `LKD-${Date.now() + 1}`,
           title: 'Demand for Youth Skills Center',
           description: 'Elections are near and we need a local skill center for unemployed graduates in Ward C.',
           translatedDescription: 'Demand for Youth Skills Center',
@@ -327,12 +375,10 @@ export const AppProvider = ({ children }) => {
           sector: 'Infrastructure',
           urgency: 'Medium',
           status: 'Pending',
-          coordinates: { x: 70, y: 60 },
-          timestamp: nowStr,
+          coordinates: { lat: 20.27, lng: 85.83 },
           impact: '500+ youth'
         },
         {
-          id: `LKD-${Date.now() + 2}`,
           title: 'Demand for Community Clinic Extension',
           description: 'Request for expanding hospital hours to 24/7 due to rising constituency population.',
           translatedDescription: 'Request for expanding hospital hours to 24/7 due to rising constituency population.',
@@ -340,30 +386,25 @@ export const AppProvider = ({ children }) => {
           sector: 'Public Health',
           urgency: 'Medium',
           status: 'Pending',
-          coordinates: { x: 74, y: 64 },
-          timestamp: nowStr,
+          coordinates: { lat: 20.3, lng: 85.86 },
           impact: '2000+ residents'
         }
       ];
     }
 
-    setGrievances((prev) => [...newTickets, ...prev]);
+    newTickets.forEach((t) => addGrievance(t));
   };
 
-  // Helper values
-  const budgetCap = 100; // ₹1.0Cr = 100 Lakhs
+  const budgetCap = 100;
   const currentBudgetUsed = projects
     .filter((p) => p.status !== 'deleted')
-    .reduce((sum, p) => sum + p.cost, 0);
+    .reduce((sum, p) => sum + (p.cost || 0), 0);
 
   return (
     <AppContext.Provider
       value={{
         grievances,
-        setGrievances,
         projects,
-        setProjects,
-
         selectedUrgency,
         setSelectedUrgency,
         selectedSector,
@@ -376,8 +417,6 @@ export const AppProvider = ({ children }) => {
         setActiveTab,
         geminiApiKey,
         setGeminiApiKey,
-        googleMapsApiKey,
-        setGoogleMapsApiKey,
         isLoggedIn,
         user,
         handleLogin,
@@ -391,7 +430,12 @@ export const AppProvider = ({ children }) => {
         updateProjectStatus,
         deleteProject,
         reorderProjects,
-        triggerSimulatorEvent
+        triggerSimulatorEvent,
+        citizenSubTab,
+        setCitizenSubTab,
+        reportQualityIssue,
+        supportGrievance,
+        resolveQualityReport,
       }}
     >
       {children}

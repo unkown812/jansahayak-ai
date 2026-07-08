@@ -1,125 +1,126 @@
 import React from 'react';
 import { useApp } from '../context/AppContext';
-import { Heart, ExternalLink } from 'lucide-react';
+import { Heart, ExternalLink, Shield } from 'lucide-react';
 
 export default function Footer() {
   const { setActiveTab } = useApp();
 
+  const linkStyle = {
+    background: 'none',
+    border: 'none',
+    padding: 0,
+    textAlign: 'left',
+    color: 'var(--muted)',
+    cursor: 'pointer',
+    fontSize: '0.875rem',
+    fontWeight: 400,
+    fontFamily: 'var(--font-sans)',
+  };
+
   return (
-    <footer className="glass-panel" style={{
-      margin: '40px 20px 20px 20px',
-      padding: '30px 24px',
-      display: 'flex',
-      flexDirection: 'column',
-      gap: '24px',
-      borderRadius: 'var(--radius-md)',
-      backgroundColor: 'var(--bg-secondary)',
-      border: '1px solid var(--border-color)'
+    <footer style={{
+      borderTop: '1px solid var(--hairline)',
+      padding: '48px 24px 24px',
+      background: 'var(--canvas)',
+      marginTop: '48px',
     }}>
-      
-      {/* Top Section */}
       <div style={{
+        maxWidth: '1280px',
+        margin: '0 auto',
         display: 'flex',
-        flexWrap: 'wrap',
-        justifyContent: 'space-between',
-        alignItems: 'flex-start',
-        gap: '24px'
+        flexDirection: 'column',
+        gap: '32px',
       }}>
-        {/* Left Column: Brand & Description */}
-        <div style={{ flex: '1 1 300px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <div className="pulse-glow" style={{
-              width: '8px',
-              height: '8px',
-              borderRadius: '50%',
-              backgroundColor: 'var(--accent)'
-            }}></div>
-            <span style={{ fontWeight: 'bold', fontSize: '1.1rem', color: 'var(--text-primary)' }}>
-              JanSahayak AI
-            </span>
+        {/* Top: Multi-column */}
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: '2fr 1fr 1fr 1fr 1fr',
+          gap: '24px',
+        }}>
+          {/* Brand */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <Shield size={18} style={{ color: 'var(--ink)' }} />
+              <span style={{ fontWeight: 500, fontSize: '0.875rem', color: 'var(--ink)' }}>
+                JanSahayak AI
+              </span>
+            </div>
+            <p style={{ fontSize: '0.75rem', color: 'var(--muted)', lineHeight: 1.5, margin: 0, maxWidth: '280px' }}>
+              AI-driven spatial analytics and inclusive civic command tools empowering
+              local communities, citizens, and Members of Parliament.
+            </p>
           </div>
-          <p style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', lineHeight: '1.5', margin: 0, maxWidth: '340px' }}>
-            AI-driven spatial analytics and inclusive civic command tools empowering local communities, citizens, and Members of Parliament.
-          </p>
-        </div>
 
-        {/* Center Column: Quick Navigation */}
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '40px' }}>
+          {/* Platform */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            <span style={{ fontSize: '0.75rem', fontWeight: 'bold', color: 'var(--text-primary)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-              Explore
+            <span style={{ fontSize: '0.75rem', fontWeight: 500, color: 'var(--ink)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+              Platform
             </span>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', fontSize: '0.75rem' }}>
-              <button 
-                onClick={() => setActiveTab('landing')} 
-                style={{ background: 'none', border: 'none', padding: 0, textAlign: 'left', color: 'var(--text-tertiary)', cursor: 'pointer' }}
-                className="text-hover-primary"
-              >
-                Home
-              </button>
-              <button 
-                onClick={() => setActiveTab('about')} 
-                style={{ background: 'none', border: 'none', padding: 0, textAlign: 'left', color: 'var(--text-tertiary)', cursor: 'pointer' }}
-                className="text-hover-primary"
-              >
-                About
-              </button>
-              <button 
-                onClick={() => setActiveTab('citizen')} 
-                style={{ background: 'none', border: 'none', padding: 0, textAlign: 'left', color: 'var(--text-tertiary)', cursor: 'pointer' }}
-                className="text-hover-primary"
-              >
-                Citizen Portal
-              </button>
-              <button 
-                onClick={() => setActiveTab('mp')} 
-                style={{ background: 'none', border: 'none', padding: 0, textAlign: 'left', color: 'var(--text-tertiary)', cursor: 'pointer' }}
-                className="text-hover-primary"
-              >
-                Command Center
-              </button>
-            </div>
+            <button onClick={() => setActiveTab('landing')} style={linkStyle}>Home</button>
+            <button onClick={() => setActiveTab('citizen')} style={linkStyle}>Citizen Portal</button>
+            <button onClick={() => setActiveTab('mp')} style={linkStyle}>Command Center</button>
           </div>
 
-          {/* Right Column: Event Info */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', maxWidth: '240px' }}>
-            <span style={{ fontSize: '0.75rem', fontWeight: 'bold', color: 'var(--text-primary)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-              Hackathon Context
+          {/* Resources */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <span style={{ fontSize: '0.75rem', fontWeight: 500, color: 'var(--ink)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+              Resources
             </span>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', fontSize: '0.75rem', color: 'var(--text-tertiary)', lineHeight: '1.4' }}>
-              <span>Build with AI: Code for Communities</span>
-              <a 
-                href="https://hack2skill.com/event/codeforcommunities/"
-                target="_blank"
-                rel="noreferrer"
-                style={{ color: 'var(--accent)', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '4px' }}
-              >
-                Event Details <ExternalLink size={10} />
-              </a>
-              <span>Host: Hack2Skill</span>
-            </div>
+            <button onClick={() => setActiveTab('about')} style={linkStyle}>About</button>
+            <span style={{ fontSize: '0.75rem', color: 'var(--muted)' }}>Documentation</span>
+            <span style={{ fontSize: '0.75rem', color: 'var(--muted)' }}>API</span>
+          </div>
+
+          {/* Company */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <span style={{ fontSize: '0.75rem', fontWeight: 500, color: 'var(--ink)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+              Hackathon
+            </span>
+            <a
+              href="https://hack2skill.com/event/codeforcommunities/"
+              target="_blank"
+              rel="noreferrer"
+              style={{
+                ...linkStyle,
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '4px',
+                color: 'var(--link)',
+              }}
+            >
+              Event Details <ExternalLink size={10} />
+            </a>
+            <span style={{ fontSize: '0.75rem', color: 'var(--muted)' }}>Code for Communities</span>
+            <span style={{ fontSize: '0.75rem', color: 'var(--muted)' }}>Host: Hack2Skill</span>
+          </div>
+
+          {/* Legal */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <span style={{ fontSize: '0.75rem', fontWeight: 500, color: 'var(--ink)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+              Legal
+            </span>
+            <span style={{ fontSize: '0.75rem', color: 'var(--muted)' }}>Privacy</span>
+            <span style={{ fontSize: '0.75rem', color: 'var(--muted)' }}>Terms</span>
           </div>
         </div>
-      </div>
 
-      {/* Divider */}
-      <div style={{ height: '1px', backgroundColor: 'var(--border-color)' }}></div>
+        {/* Divider */}
+        <div style={{ height: '1px', backgroundColor: 'var(--hairline)' }} />
 
-      {/* Bottom Section */}
-      <div style={{
-        display: 'flex',
-        flexWrap: 'wrap',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        gap: '12px',
-        fontSize: '0.7rem',
-        color: 'var(--text-tertiary)'
-      }}>
-        <div>
-          © {new Date().getFullYear()} JanSahayak AI. All rights reserved.
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-          Built with <Heart size={10} fill="var(--danger)" style={{ color: 'var(--danger)' }} /> for Code for Communities Track 1
+        {/* Bottom */}
+        <div style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          gap: '12px',
+          fontSize: '0.75rem',
+          color: 'var(--muted)',
+        }}>
+          <span>&copy; {new Date().getFullYear()} JanSahayak AI. All rights reserved.</span>
+          <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+            Built with <Heart size={10} fill="var(--ink)" style={{ color: 'var(--ink)' }} /> for Code for Communities
+          </span>
         </div>
       </div>
     </footer>

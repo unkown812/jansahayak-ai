@@ -1,0 +1,106 @@
+{
+ "indexes": [
+  {
+   "collectionGroup": "grievances",
+   "queryScope": "COLLECTION",
+   "fields": [
+    {
+     "fieldPath": "sector",
+     "order": "ASCENDING"
+    },
+    {
+     "fieldPath": "supportCount",
+     "order": "DESCENDING"
+    }
+   ]
+  },
+  {
+   "collectionGroup": "grievances",
+   "queryScope": "COLLECTION",
+   "fields": [
+    {
+     "fieldPath": "status",
+     "order": "ASCENDING"
+    },
+    {
+     "fieldPath": "timestamp",
+     "order": "DESCENDING"
+    }
+   ]
+  },
+  {
+   "collectionGroup": "grievances",
+   "queryScope": "COLLECTION",
+   "fields": [
+    {
+     "fieldPath": "urgency",
+     "order": "ASCENDING"
+    },
+    {
+     "fieldPath": "supportCount",
+     "order": "DESCENDING"
+    }
+   ]
+  },
+  {
+   "collectionGroup": "grievances",
+   "queryScope": "COLLECTION",
+   "fields": [
+    {
+     "fieldPath": "reporter",
+     "order": "ASCENDING"
+    },
+    {
+     "fieldPath": "timestamp",
+     "order": "DESCENDING"
+    }
+   ]
+  },
+  {
+   "collectionGroup": "grievances",
+   "queryScope": "COLLECTION",
+   "fields": [
+    {
+     "fieldPath": "sector",
+     "order": "ASCENDING"
+    },
+    {
+     "fieldPath": "urgency",
+     "order": "ASCENDING"
+    },
+    {
+     "fieldPath": "status",
+     "order": "ASCENDING"
+    }
+   ]
+  },
+  {
+   "collectionGroup": "projects",
+   "queryScope": "COLLECTION",
+   "fields": [
+    {
+     "fieldPath": "status",
+     "order": "ASCENDING"
+    },
+    {
+     "fieldPath": "priority",
+     "order": "ASCENDING"
+    }
+   ]
+  },
+  {
+   "collectionGroup": "projects",
+   "queryScope": "COLLECTION",
+   "fields": [
+    {
+     "fieldPath": "isMaintenance",
+     "order": "ASCENDING"
+    },
+    {
+     "fieldPath": "createdAt",
+     "order": "DESCENDING"
+    }
+   ]
+  }
+ ]
+}

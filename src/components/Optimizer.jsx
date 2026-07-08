@@ -14,10 +14,24 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { GripVertical, AlertTriangle, Hammer, Calendar, IndianRupee, Sparkles, Plus, Trash2 } from 'lucide-react';
+import { GripVertical, AlertTriangle, Hammer, Calendar, IndianRupee, Sparkles, Plus, Trash2, TrendingUp } from 'lucide-react';
+
+// Score a project by combined urgency + community support
+const getCombinedPriority = (project, grievances) => {
+  const urgencyWeight = { Critical: 3, High: 2, Medium: 1, Low: 0.5 };
+  const urgency = urgencyWeight[project.urgency] || 1;
+  // Find matching grievance support count
+  const matchId = project.id?.replace('PROJ-WO-', '').replace('PROJ-MAINT-', '');
+  const matchingGrievance = grievances.find(
+    (g) => g.id.includes(matchId) || matchId?.includes(g.id.split('-')[1])
+  );
+  const supportCount = matchingGrievance?.supportCount || 0;
+  const supportScore = Math.min(3, supportCount / 5);
+  return urgency * 0.6 + supportScore * 0.4;
+};
 
 // Sortable Card Item Subcomponent
-function SortableProjectCard({ project, index, fitsInBudget, cumulativeCost, onDelete }) {
+function SortableProjectCard({ project, index, fitsInBudget, cumulativeCost, onDelete, communityScore }) {
   const {
     attributes,
     listeners,
@@ -101,8 +115,8 @@ function SortableProjectCard({ project, index, fitsInBudget, cumulativeCost, onD
         </div>
       </div>
 
-      {/* Project cost/duration metadata */}
-      <div style={{ textAlign: 'right', flexShrink: 0, display: 'flex', flexDirection: 'column', gap: '4px' }}>
+      {/* Project metadata */}
+      <div style={{ textAlign: 'right', flexShrink: 0, display: 'flex', flexDirection: 'column', gap: '4px', alignItems: 'flex-end' }}>
         <div style={{ fontWeight: 'bold', fontSize: '0.9rem', color: fitsInBudget ? 'var(--text-primary)' : 'var(--text-tertiary)' }}>
           ₹{project.cost} Lakhs
         </div>
@@ -110,6 +124,19 @@ function SortableProjectCard({ project, index, fitsInBudget, cumulativeCost, onD
           <Calendar size={12} />
           {project.duration} Days
         </div>
+        {communityScore !== undefined && (
+          <div style={{
+            fontSize: '0.65rem',
+            padding: '2px 6px',
+            borderRadius: 'var(--radius-sm)',
+            backgroundColor: communityScore > 2 ? 'var(--warning-bg)' : 'var(--info-bg)',
+            color: communityScore > 2 ? 'var(--warning)' : 'var(--info)',
+            fontWeight: '600',
+            marginTop: '2px',
+          }}>
+            Priority: {communityScore.toFixed(1)}
+          </div>
+        )}
       </div>
 
       {/* Delete button (if manually added / queued) */}
@@ -134,7 +161,8 @@ export default function Optimizer() {
     currentBudgetUsed,
     addProject,
     deleteProject,
-    reorderProjects
+    reorderProjects,
+    grievances,
   } = useApp();
 
   const [optimizerLogs, setOptimizerLogs] = useState([]);
@@ -269,15 +297,29 @@ export default function Optimizer() {
           )}
         </div>
 
-        {/* Plan generator button & console */}
+          {/* Community Priority Sorting */}
+          <button
+            onClick={() => {
+              const sorted = [...projects].sort((a, b) => {
+                const scoreA = getCombinedPriority(a, grievances);
+                const scoreB = getCombinedPriority(b, grievances);
+                return scoreB - scoreA;
+              });
+              reorderProjects(sorted);
+            }}
+            className="btn"
+            style={{ fontSize: '0.8rem', padding: '8px', borderColor: 'var(--info)', color: 'var(--info)', background: 'var(--info-bg)' }}
+          >
+            <TrendingUp size={14} /> Auto-Sort by Community Priority
+          </button>
+
+          {/* Plan generator button & console */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
           <button
             onClick={handleAutoPlanProject}
             disabled={isGenerating}
             className="btn btn-primary"
             style={{
-              background: 'linear-gradient(135deg, var(--accent), #4f46e5)',
-              border: 'none',
               padding: '12px'
             }}
           >
@@ -320,6 +362,7 @@ export default function Optimizer() {
                     index={idx}
                     fitsInBudget={projectFits[idx]}
                     onDelete={deleteProject}
+                    communityScore={getCombinedPriority(proj, grievances)}
                   />
                 ))}
               </div>

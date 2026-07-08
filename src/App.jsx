@@ -14,11 +14,12 @@ import LandingPage from './components/LandingPage';
 import AboutPage from './components/AboutPage';
 import Footer from './components/Footer';
 import LoginPortal from './components/LoginPortal';
-import { Shield, Sparkles, Sliders, MessageSquare } from 'lucide-react';
+import QualityDashboard from './components/QualityDashboard';
+import { Shield, Sparkles, Sliders, MessageSquare, AlertTriangle } from 'lucide-react';
 
 function MainAppContent() {
   const { activeTab, isLoggedIn } = useApp();
-  const [mpSubTab, setMpSubTab] = useState('grievances'); // 'grievances', 'optimizer', or 'advisor'
+  const [mpSubTab, setMpSubTab] = useState('grievances'); // 'grievances', 'optimizer', 'advisor', 'social', 'quality'
   const [selectedGrievance, setSelectedGrievance] = useState(null);
 
   return (
@@ -57,9 +58,9 @@ function MainAppContent() {
           <div style={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
             
             {/* Sub Navigation Bar for MP Workspace */}
-            <div className="admin-sub-navbar glass-panel">
+            <div className="admin-sub-navbar">
               <div className="admin-sub-navbar-label">
-                <Shield size={18} style={{ color: 'var(--accent)' }} />
+                <Shield size={18} style={{ color: 'var(--primary)' }} />
                 <span>Constituency Admin Workspace</span>
               </div>
 
@@ -71,11 +72,11 @@ function MainAppContent() {
                   style={{
                     padding: '6px 12px',
                     fontSize: '0.8rem',
-                    borderRadius: 'var(--radius-sm)',
-                    backgroundColor: mpSubTab === 'grievances' ? 'var(--accent)' : 'transparent',
-                    color: mpSubTab === 'grievances' ? 'var(--accent-text)' : 'var(--text-secondary)',
-                    borderColor: mpSubTab === 'grievances' ? 'var(--accent)' : 'transparent',
-                    fontWeight: '600',
+                    borderRadius: 'var(--rounded-sm)',
+                    backgroundColor: mpSubTab === 'grievances' ? 'var(--primary)' : 'transparent',
+                    color: mpSubTab === 'grievances' ? 'var(--on-primary)' : 'var(--body)',
+                    border: mpSubTab === 'grievances' ? '1px solid var(--primary)' : '1px solid transparent',
+                    fontWeight: '500',
                     boxShadow: 'none'
                   }}
                 >
@@ -87,15 +88,15 @@ function MainAppContent() {
                   style={{
                     padding: '6px 12px',
                     fontSize: '0.8rem',
-                    borderRadius: 'var(--radius-sm)',
-                    backgroundColor: mpSubTab === 'optimizer' ? 'var(--accent)' : 'transparent',
-                    color: mpSubTab === 'optimizer' ? 'var(--accent-text)' : 'var(--text-secondary)',
-                    borderColor: mpSubTab === 'optimizer' ? 'var(--accent)' : 'transparent',
-                    fontWeight: '600',
+                    borderRadius: 'var(--rounded-sm)',
+                    backgroundColor: mpSubTab === 'optimizer' ? 'var(--primary)' : 'transparent',
+                    color: mpSubTab === 'optimizer' ? 'var(--on-primary)' : 'var(--body)',
+                    border: mpSubTab === 'optimizer' ? '1px solid var(--primary)' : '1px solid transparent',
+                    fontWeight: '500',
                     boxShadow: 'none'
                   }}
                 >
-                  <Sliders size={14} style={{ marginRight: '6px', verticalAlign: 'middle', display: 'inline' }} />
+                  <Sliders size={14} />
                   Resource Optimizer
                 </button>
                 <button
@@ -104,18 +105,18 @@ function MainAppContent() {
                   style={{
                     padding: '6px 12px',
                     fontSize: '0.8rem',
-                    borderRadius: 'var(--radius-sm)',
-                    backgroundColor: mpSubTab === 'advisor' ? 'var(--accent)' : 'transparent',
-                    color: mpSubTab === 'advisor' ? 'var(--accent-text)' : 'var(--text-secondary)',
-                    borderColor: mpSubTab === 'advisor' ? 'var(--accent)' : 'transparent',
-                    fontWeight: '600',
+                    borderRadius: 'var(--rounded-sm)',
+                    backgroundColor: mpSubTab === 'advisor' ? 'var(--primary)' : 'transparent',
+                    color: mpSubTab === 'advisor' ? 'var(--on-primary)' : 'var(--body)',
+                    border: mpSubTab === 'advisor' ? '1px solid var(--primary)' : '1px solid transparent',
+                    fontWeight: '500',
                     boxShadow: 'none',
                     display: 'flex',
                     alignItems: 'center',
                     gap: '4px'
                   }}
                 >
-                  <Sparkles size={14} style={{ display: 'inline' }} />
+                  <Sparkles size={14} />
                   AI Strategic Advisor
                 </button>
                 <button
@@ -124,19 +125,39 @@ function MainAppContent() {
                   style={{
                     padding: '6px 12px',
                     fontSize: '0.8rem',
-                    borderRadius: 'var(--radius-sm)',
-                    backgroundColor: mpSubTab === 'social' ? 'var(--accent)' : 'transparent',
-                    color: mpSubTab === 'social' ? 'var(--accent-text)' : 'var(--text-secondary)',
-                    borderColor: mpSubTab === 'social' ? 'var(--accent)' : 'transparent',
-                    fontWeight: '600',
+                    borderRadius: 'var(--rounded-sm)',
+                    backgroundColor: mpSubTab === 'social' ? 'var(--primary)' : 'transparent',
+                    color: mpSubTab === 'social' ? 'var(--on-primary)' : 'var(--body)',
+                    border: mpSubTab === 'social' ? '1px solid var(--primary)' : '1px solid transparent',
+                    fontWeight: '500',
                     boxShadow: 'none',
                     display: 'flex',
                     alignItems: 'center',
                     gap: '4px'
                   }}
                 >
-                  <MessageSquare size={14} style={{ display: 'inline' }} />
+                  <MessageSquare size={14} />
                   Social Gripe Ingestor
+                </button>
+                <button
+                  onClick={() => setMpSubTab('quality')}
+                  className="btn"
+                  style={{
+                    padding: '6px 12px',
+                    fontSize: '0.8rem',
+                    borderRadius: 'var(--rounded-sm)',
+                    backgroundColor: mpSubTab === 'quality' ? 'var(--primary)' : 'transparent',
+                    color: mpSubTab === 'quality' ? 'var(--on-primary)' : 'var(--body)',
+                    border: mpSubTab === 'quality' ? '1px solid var(--primary)' : '1px solid transparent',
+                    fontWeight: '500',
+                    boxShadow: 'none',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '4px'
+                  }}
+                >
+                  <AlertTriangle size={14} />
+                  Quality Control
                 </button>
               </div>
             </div>
@@ -180,6 +201,29 @@ function MainAppContent() {
             ) : mpSubTab === 'advisor' ? (
               <main style={{ flexGrow: 1, padding: '0 24px' }}>
                 <AiAdvisor />
+              </main>
+            ) : mpSubTab === 'quality' ? (
+              <main style={{ flexGrow: 1 }}>
+                <QualityDashboard onSelectGrievance={setSelectedGrievance} />
+                {selectedGrievance && (
+                  <div
+                    style={{
+                      position: 'fixed',
+                      top: 0,
+                      right: 0,
+                      bottom: 0,
+                      width: '420px',
+                      maxWidth: '100vw',
+                      zIndex: 1000,
+                      boxShadow: 'var(--shadow-lg)',
+                    }}
+                  >
+                    <DetailPanel
+                      grievance={selectedGrievance}
+                      onClose={() => setSelectedGrievance(null)}
+                    />
+                  </div>
+                )}
               </main>
             ) : (
               <main style={{ flexGrow: 1, padding: '0 24px' }}>

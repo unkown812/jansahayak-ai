@@ -1,7 +1,7 @@
 import React from 'react';
 import { useApp } from '../context/AppContext';
 import ReactECharts from 'echarts-for-react';
-import { Heart, AlertCircle, IndianRupee, Briefcase, TrendingUp, HelpCircle } from 'lucide-react';
+import { Heart, AlertCircle, IndianRupee, Briefcase, TrendingUp, ShieldAlert } from 'lucide-react';
 
 export default function KpiGrid() {
   const { grievances, projects, budgetCap, currentBudgetUsed, theme } = useApp();
@@ -207,7 +207,7 @@ export default function KpiGrid() {
               </span>
             </div>
           </div>
-          <div style={{ padding: '8px', borderRadius: 'var(--radius-sm)', backgroundColor: 'var(--accent-glow)', color: 'var(--accent)' }}>
+          <div style={{ padding: '8px', borderRadius: 'var(--rounded-sm)', border: '1px solid var(--hairline)', color: 'var(--ink)' }}>
             <IndianRupee size={20} />
           </div>
         </div>
@@ -252,6 +252,34 @@ export default function KpiGrid() {
           <div style={{ width: '40px', height: '40px', flexShrink: 0 }}>
             <ReactECharts option={projectPieOption} style={{ height: '100%', width: '100%' }} />
           </div>
+        </div>
+      </div>
+
+      {/* CARD 5: Quality Stats */}
+      <div className="glass-panel" style={{ padding: '16px', backgroundColor: 'var(--bg-secondary)', border: '1px solid var(--border-color)', display: 'flex', flexDirection: 'column', gap: '12px', minHeight: '140px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+          <div>
+            <span style={{ fontSize: '0.8rem', color: 'var(--text-tertiary)', textTransform: 'uppercase', fontWeight: 'bold', letterSpacing: '0.05em' }}>Quality Control</span>
+            <div style={{ fontSize: '1.2rem', fontWeight: 'bold', marginTop: '2px', display: 'flex', flexDirection: 'column', gap: '2px' }}>
+              <span style={{ fontSize: '0.85rem', fontWeight: '600' }}>
+                <span style={{ color: 'var(--warning)' }}>{(resolvedCount > 0 ? ((grievances.filter(g => g.status === 'Resolved' && (g.qualityReports || []).some(r => r.status !== 'closed')).length / resolvedCount) * 100).toFixed(1) : 0)}%</span> re-open rate
+              </span>
+              <span style={{ fontSize: '0.85rem', fontWeight: '600' }}>
+                <span style={{ color: 'var(--info)' }}>{grievances.reduce((sum, g) => sum + ((g.qualityReports || []).filter(r => r.status !== 'closed').length), 0)}</span> pending reports
+              </span>
+            </div>
+          </div>
+          <div style={{ padding: '8px', borderRadius: 'var(--radius-sm)', backgroundColor: 'var(--danger-bg)', color: 'var(--danger)' }}>
+            <ShieldAlert size={20} />
+          </div>
+        </div>
+        <div style={{ height: '40px', marginTop: 'auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <span style={{ fontSize: '0.7rem', color: 'var(--text-secondary)' }}>
+            Flagged: <strong style={{ color: 'var(--warning)' }}>{grievances.filter(g => (g.qualityReports || []).some(r => r.status !== 'closed')).length}</strong>
+          </span>
+          <span style={{ fontSize: '0.7rem', color: 'var(--text-secondary)' }}>
+            Total support: <strong style={{ color: 'var(--accent)' }}>{grievances.reduce((sum, g) => sum + (g.supportCount || 0), 0)}</strong>
+          </span>
         </div>
       </div>
     </div>

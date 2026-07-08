@@ -1,58 +1,44 @@
--- JanSahayak AI Database Schema SQL Script
--- Copy and paste this script directly into your Supabase SQL Editor (https://supabase.com/dashboard/project/_/sql)
+-- WARNING: This schema is for context only and is not meant to be run.
+-- Table order and constraints may not be valid for execution.
 
--- 1. Create Grievances Table
-CREATE TABLE IF NOT EXISTS grievances (
-  id TEXT PRIMARY KEY,
-  title TEXT NOT NULL,
-  description TEXT,
-  translated_description TEXT,
-  reporter TEXT,
-  sector TEXT NOT NULL,
-  urgency TEXT NOT NULL,
-  status TEXT DEFAULT 'Pending',
-  coordinates JSONB,
-  timestamp TIMESTAMPTZ DEFAULT NOW(),
-  impact TEXT
+CREATE TABLE public.grievances (
+  id text NOT NULL,
+  title text NOT NULL,
+  description text,
+  translated_description text,
+  reporter text,
+  sector text NOT NULL,
+  urgency text NOT NULL,
+  status text DEFAULT 'Pending'::text,
+  coordinates jsonb,
+  timestamp timestamp with time zone DEFAULT now(),
+  impact text,
+  resolved_date timestamp with time zone,
+  quality_reports jsonb DEFAULT '[]'::jsonb,
+  support_count integer DEFAULT 0,
+  supporters jsonb DEFAULT '[]'::jsonb,
+  CONSTRAINT grievances_pkey PRIMARY KEY (id)
 );
-
--- 2. Create Projects Table
-CREATE TABLE IF NOT EXISTS projects (
-  id TEXT PRIMARY KEY,
-  name TEXT NOT NULL,
-  description TEXT,
-  sector TEXT NOT NULL,
-  cost NUMERIC NOT NULL,
-  duration INTEGER NOT NULL,
-  status TEXT DEFAULT 'Queued',
-  priority INTEGER DEFAULT 99,
-  created_at TIMESTAMPTZ DEFAULT NOW(),
-  materials TEXT
+CREATE TABLE public.projects (
+  id text NOT NULL,
+  name text NOT NULL,
+  description text,
+  sector text NOT NULL,
+  cost numeric NOT NULL,
+  duration integer NOT NULL,
+  status text DEFAULT 'Queued'::text,
+  priority integer DEFAULT 99,
+  created_at timestamp with time zone DEFAULT now(),
+  materials text,
+  is_maintenance boolean DEFAULT false,
+  CONSTRAINT projects_pkey PRIMARY KEY (id)
 );
-
--- 3. Enable Row Level Security (RLS)
-ALTER TABLE grievances ENABLE ROW LEVEL SECURITY;
-ALTER TABLE projects ENABLE ROW LEVEL SECURITY;
-
--- 4. Create Policies (Allow anonymous read/write operations for testing ease, restrict as needed in production)
-DROP POLICY IF EXISTS "Allow public read of grievances" ON grievances;
-CREATE POLICY "Allow public read of grievances" ON grievances FOR SELECT USING (true);
-
-DROP POLICY IF EXISTS "Allow public insert of grievances" ON grievances;
-CREATE POLICY "Allow public insert of grievances" ON grievances FOR INSERT WITH CHECK (true);
-
-DROP POLICY IF EXISTS "Allow public update of grievances" ON grievances;
-CREATE POLICY "Allow public update of grievances" ON grievances FOR UPDATE USING (true);
-
-
-DROP POLICY IF EXISTS "Allow public read of projects" ON projects;
-CREATE POLICY "Allow public read of projects" ON projects FOR SELECT USING (true);
-
-DROP POLICY IF EXISTS "Allow public insert of projects" ON projects;
-CREATE POLICY "Allow public insert of projects" ON projects FOR INSERT WITH CHECK (true);
-
-DROP POLICY IF EXISTS "Allow public update of projects" ON projects;
-CREATE POLICY "Allow public update of projects" ON projects FOR UPDATE USING (true);
-
-DROP POLICY IF EXISTS "Allow public delete of projects" ON projects;
-CREATE POLICY "Allow public delete of projects" ON projects FOR DELETE USING (true);
+CREATE TABLE public.users (
+  id uuid NOT NULL DEFAULT gen_random_uuid(),
+  name text NOT NULL,
+  email text UNIQUE,
+  phone text UNIQUE,
+  role text DEFAULT 'citizen'::text,
+  created_at timestamp with time zone DEFAULT now(),
+  CONSTRAINT users_pkey PRIMARY KEY (id)
+);
