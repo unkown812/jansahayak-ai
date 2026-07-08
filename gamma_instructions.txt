@@ -1,0 +1,82 @@
+================================================================================
+👑 JanSahayak AI — HACKATHON SLIDE DECK: ULTIMATE REFINEMENT PROMPT
+================================================================================
+Copy the entire text below and paste it as the instructions/prompt in Gamma AI. 
+This prompt enforces layout symmetry, a premium dark glassmorphic design 
+system, and highly detailed visual asset generation.
+
+--------------------------------------------------------------------------------
+[START OF PROMPT]
+
+Role: Principal UI/UX Designer & Presentation Director.
+Goal: Transform this markdown outline into a cohesive, jaw-dropping, high-production 10-slide executive pitch deck. 
+
+================================================================================
+🎨 PART 1: MASTER DESIGN SYSTEM & LAYOUT CONSTRAINTS
+================================================================================
+- Dimensions: Force all cards/slides to a strict 16:9 widescreen format. All slides must have identical height, width, margins, and content padding to ensure 100% size uniformity.
+- Layout Rule: Use a strict 2-column grid layout on every slide.
+  * Left Column (55% width): Markdown text content styled with high visual hierarchy, bulleted lists, and highlighted metrics.
+  * Right Column (45% width): A single, highly detailed, context-relevant AI-generated image.
+- Theme: "Cyberpunk Civic Tech / Glassmorphic Executive Dashboard".
+  * Primary Background: Ultra-dark slate black (#090b11)
+  * Card Backgrounds: Semi-transparent glass panels (#131722 with a 1px border of rgba(99,102,241,0.12))
+  * Highlight Colors: Neon Indigo (#6366f1) for active focus, Emerald (#10b981) for budget success, Amber (#f59e0b) for alerts.
+- Typography: Large bold titles (weight: 800) in Outfit/Inter font, body text in clean zinc gray (#a1a1aa).
+
+================================================================================
+🖼️ PART 2: SLIDE-BY-SLIDE SPECIFICATIONS & DETAILED IMAGE PROMPTS
+================================================================================
+
+---
+### Slide 1: Title Slide (JanSahayak AI)
+- Left Layout: Title "JanSahayak AI" in massive neon indigo font, subtitle, and clickable repo/app links formatted as glowing pill tags.
+- Right Image Prompt: "A highly detailed, futuristic 3D vector emblem of a digital shield enclosing a glowing eye symbol. The emblem is floating in a dark room with volumetric blue and indigo lighting, reflections, octane render, 8k resolution, photorealistic, tech asset --ar 16:9 --style raw"
+
+---
+### Slide 2: The Core Problem Statement (The MP's Dilemma)
+- Left Layout: Place the quote in a prominent glassmorphic blockquote container with indigo left borders. Bullet points listed below with warning-colored bullet icons.
+- Right Image Prompt: "An abstract concept of civic database chaos. Unstructured letters, document pages, and social media chat bubbles floating into a large glowing digital funnel. The funnel geocodes and structures them, cyber-tech aesthetic, dark blue background, volumetric lighting, high contrast, clean vector render --ar 16:9"
+
+---
+### Slide 3: The Dilemma We Solve (School vs. Vocational Center)
+- Left Layout: Structured comparison layout. Highlight two distinct blocks (Case A: School upgrades, Case B: Vocational Center) using contrasting border panels.
+- Right Image Prompt: "A double-exposure 3D concept art. On the left side, a modern classroom with student silhouettes; on the right side, a robotic workshop or vocational training room. A bright vertical neon laser dividing the two halves, deep blue and orange hues, conceptual art, cinematic lighting --ar 16:9"
+
+---
+### Slide 4: System Architecture (Four Core Product Pillars)
+- Left Layout: A clean 2x2 grid representing the four pillars with matching icons and short bold headers for each.
+- Right Image Prompt: "A 3D isometric flowchart of a software system architecture. Four glowing crystal nodes representing 'Intake', 'GIS Map', 'Advisor', and 'Optimizer' connected by neon blue light paths, floating on a dark glass plane, abstract tech schematic, highly detailed, 8k --ar 16:9"
+
+---
+### Slide 5: Pillar 1 (Citizen Intake & geocoding)
+- Left Layout: Timeline-style vertical list showing the flow from Voice Note -> Gemini Translate/Parse -> Map Pinning.
+- Right Image Prompt: "A modern smartphone mockup floating in space, displaying a map of Bhubaneswar with red pin drops and a glowing colorful voice speech wave. The background is a dark grid with subtle network nodes, clean app interface design, cinematic --ar 16:9"
+
+---
+### Slide 6: Pillar 2 (Zonal Command Center)
+- Left Layout: Split sub-features. Use high-contrast success badges next to the features (Map, KPIs, Letter Writer).
+- Right Image Prompt: "A clean dashboard layout of an MP command console. A central map of Bhubaneswar with green and red glowing heat clusters, surrounding analytical charts (donut chart, bar chart) rendered in neon colors, dark theme UI mockup, flat design --ar 16:9"
+
+---
+### Slide 7: Pillar 3 (AI Strategic Advisor)
+- Left Layout: A summary box showcasing the calculated "Constituency Health Score" next to Gemini's analytical checks.
+- Right Image Prompt: "A glowing 3D holographic human brain made of digital lines and nodes, analyzing vertical bar graphs and budget numbers floating around it. High-tech, dark cyberspace setting, glowing neon indigo and cyan lights, volumetric render --ar 16:9"
+
+---
+### Slide 8: Pillar 4 (Resource Optimizer)
+- Left Layout: Features list highlighting the budget cap check (₹1.0Cr), Gantt scheduling, and the official printed work order dispatches.
+- Right Image Prompt: "A sleek Gantt chart calendar interface showing colorful project timeline blocks. A hand is dragging a card, and a progress bar at the top glows green, showing 100% budget optimization, vector flat design, modern project management app --ar 16:9"
+
+---
+### Slide 9: The Technology Stack (Unified Stack)
+- Left Layout: A clean table listing: Component (Frontend, AI, GIS, Database) vs. Technology used. Keep lines spaced and tidy.
+- Right Image Prompt: "A beautiful isometric 3D composition of glowing tech logo representations (React React logo, Google Gemini diamond logo, Supabase database container, and Google Maps pin) floating together in a group on a dark reflective surface, neon glow --ar 16:9"
+
+---
+### Slide 10: Summary & Project Credits (Closing Slide)
+- Left Layout: Highlight key impact blocks in a checklist, followed by team roles and a concluding bold Q&A callout.
+- Right Image Prompt: "An elegant, cinematic close-up of a glass trophy or shield engraving that reads 'THANK YOU' and 'JanSahayak AI'. Soft blue and purple stage lighting, shallow depth of field, reflective glass texture, clean premium ending slide graphic, octane render --ar 16:9"
+
+[END OF PROMPT]
+================================================================================
