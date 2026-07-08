@@ -1,0 +1,14 @@
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://jansahayak-ai.netlify.app/sitemap.xml
+
+# Crawl delay for polite crawling
+Crawl-delay: 10
+
+# Block internal-only paths
+Disallow: /dist/
+Disallow: /node_modules/
+Disallow: /firebase/
+Disallow: /supabase/

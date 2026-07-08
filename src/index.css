@@ -307,6 +307,22 @@ h4 {
   resize: vertical;
 }
 
+/* Accessibility */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--primary);
+  color: var(--on-primary);
+  padding: 8px 16px;
+  z-index: 10000;
+  font-size: 0.875rem;
+  text-decoration: none;
+}
+.skip-link:focus {
+  top: 0;
+}
+
 /* Animations */
 @keyframes slideInRight {
   from { transform: translateX(100%); }

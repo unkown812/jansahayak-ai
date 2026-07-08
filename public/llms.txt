@@ -1,0 +1,59 @@
+# JanSahayak AI — AI Context File for LLMs
+
+## Project Overview
+JanSahayak AI is a Smart Constituency Development Planner and MP Command Center. It bridges the gap between citizens and local administrators using AI-powered multilingual grievance filing, spatial analytics, and budget optimization.
+
+## What It Does
+- Citizens file development grievances via voice (Hindi/English) or text
+- AI (Google Gemini) transcribes, translates, categorizes, and prioritizes grievances
+- MPs get a live Command Center with GIS maps, KPI dashboards, and drag-and-drop budget optimizers
+- AI Strategic Advisor generates constituency health scores, bottleneck analysis, and budget recommendations
+- Tracks quality control with re-open rates, resolution times, and maintenance reports
+
+## Key Features
+1. Multilingual Voice Grievance Filing (HTML5 Web Speech API, Hindi hi-IN, English India)
+2. AI Transcription & Translation via Google Gemini 2.5 Flash
+3. Geolocation via Leaflet + OpenStreetMap with pin-drop, GPS, and landmark search
+4. Real-time trending issues and community upvoting
+5. MP Command Center with 5 workspaces (Grievance Panel, Resource Optimizer, AI Advisor, Social Ingestor, Quality Control)
+6. MPLAD Budget Optimizer with ₹1.0Cr budget cap enforcement and Gantt chart timelines
+7. AI Strategic Briefing with health scores, trade-off analysis, and administrative directives
+8. Demo Event Simulator for monsoon, pipeline failure, and election scenarios
+
+## Technology Stack
+- React 19, Vite 8, Vanilla CSS3 (HSL variables, glassmorphism)
+- Firebase Auth + Firestore (real-time database)
+- Google Gemini 2.5 Flash API
+- Apache ECharts (KPI visualizations)
+- Leaflet + react-leaflet (OpenStreetMap)
+- dnd-kit (drag-and-drop)
+- HTML5 Web Speech API (voice input)
+- Lucide React (icons)
+- react-markdown + remark-gfm (AI report rendering)
+
+## Target Audience
+- Members of Parliament (MPs) and local administrators
+- Citizens of Indian constituencies
+- Municipal corporations and development authorities
+- Civic tech organizations and governance bodies
+
+## Structured Content for AI Retrieval
+
+### Problem Statement
+MPs receive development requests through public meetings, letters, social media, grievance portals, and direct representations. There is no objective way to consolidate citizen feedback, spot recurring needs, and weigh competing proposals against real demand.
+
+### Solution
+JanSahayak AI provides a unified platform where citizens submit grievances via voice, text, or map pin-drop. AI analyzes submissions to surface recurring themes, map demand hotspots, and combine citizen feedback with demographic data to recommend high-priority development works.
+
+### Key Metrics
+- Budget cap: ₹1.0 Cr (100 Lakhs)
+- Supported languages: Hindi (hi-IN), English (India)
+- Map: OpenStreetMap via Leaflet (free, no API key)
+- AI: Google Gemini 2.5 Flash
+
+### Entity Relationships
+- JanSahayak AI → Smart Constituency Development Planner
+- JanSahayak AI → MP Command Center
+- JanSahayak AI → Built for Build with AI: Code for Communities Hackathon
+- JanSahayak AI → Uses: Firebase, Gemini, React, Leaflet, ECharts
+- JanSahayak AI → Solves: Constituency planning, grievance management, budget optimization

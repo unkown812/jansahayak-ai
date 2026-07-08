@@ -1,5 +1,5 @@
 import React from 'react';
-import { Shield, BookOpen, Terminal, Check, Award, AlertTriangle, Target, HelpCircle, MapPin, Brain, Sliders, Users } from 'lucide-react';
+import { Terminal, Check, Award, AlertTriangle, Target, HelpCircle, MapPin, Brain, Sliders, Users } from 'lucide-react';
 
 export default function AboutPage() {
   const stack = [
@@ -8,20 +8,20 @@ export default function AboutPage() {
       desc: 'Modern reactive virtual DOM scaffolded for fast page loads and HMR updates.'
     },
     {
-      name: 'Google Gemini 1.5 Flash API',
-      desc: 'Drives our translation, letter writers, and strategic roadmaps. Integrates context demographics to evaluate prioritization trade-offs.'
+      name: 'Google Gemini 2.5 Flash API',
+      desc: 'Drives translation, strategic roadmaps, and AI advisory briefings. Integrates demographic context to evaluate prioritization trade-offs.'
     },
     {
-      name: 'Supabase PostgreSQL Database',
-      desc: 'Hosted cloud database syncing grievances, work projects queue, and timelines in real-time.'
+      name: 'Firebase Firestore Database',
+      desc: 'Real-time NoSQL cloud database syncing grievances, work projects, and timelines across sessions without a backend server.'
     },
     {
-      name: 'Supabase Auth & Google OAuth',
-      desc: 'Premium SSO authentication guarding administrative access with OAuth redirection.'
+      name: 'Firebase Auth & Google OAuth',
+      desc: 'Managed authentication with Google sign-in, email/password, and security rules for administrative access.'
     },
     {
-      name: 'Google Maps JavaScript API',
-      desc: 'Interactive geolocated map of Bhubaneswar, Odisha with spatial pin plots.'
+      name: 'Leaflet + OpenStreetMap',
+      desc: 'Interactive geolocated constituency map with spatial pin plots — free and open-source, no API key required.'
     },
     {
       name: 'Apache ECharts',
