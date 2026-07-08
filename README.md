@@ -1,9 +1,9 @@
 # JanSahayak AI — AI-Powered Smart Constituency Development Planner & MP Command Center
 
 <div align="center">
-
-![JanSahayak AI Banner](/images/Banner.png)
-
+<a href="https://jansahayak-ai.netlify.app">
+<img src="/images/Banner.png" alt="JanSahayak AI Banner" />
+</a>
 </div>
 
 <div align="center">
