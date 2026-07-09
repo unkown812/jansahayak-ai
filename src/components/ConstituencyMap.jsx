@@ -198,7 +198,7 @@ function WeatherPopup({ weather, loading, error, radarTiles, showRadar, onToggle
     >
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '6px' }}>
         <span style={{ fontWeight: 600, fontSize: '0.75rem', color: 'var(--text-primary)' }}>
-          {desc.icon} Bhubaneswar
+          {desc.icon} India
         </span>
         <button
           onClick={onToggleRadar}
@@ -338,7 +338,7 @@ export default function ConstituencyMap({ onSelectGrievance }) {
             Constituency Map Diagnostics
           </span>
           <span style={{ fontSize: '0.7rem', color: 'var(--text-tertiary)' }}>
-            OpenStreetMap spatial overlay of Bhubaneswar Constituency, Odisha
+            OpenStreetMap spatial overlay of India Constituency, Odisha
           </span>
         </div>
       </div>

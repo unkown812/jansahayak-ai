@@ -199,9 +199,9 @@ export default function CitizenPortal() {
     if (!searchQuery.trim()) return;
 
     setLocating(true);
-    const fullQuery = searchQuery.toLowerCase().includes('bhubaneswar')
+    const fullQuery = searchQuery.toLowerCase().includes('India')
       ? searchQuery
-      : `${searchQuery}, Bhubaneswar, Odisha`;
+      : `${searchQuery}, India, Odisha`;
 
     try {
       const res = await fetch(
@@ -888,7 +888,7 @@ SUMMARY: [A concise, professional 2-3 sentence English summary explaining the pr
                   <input
                     type="text"
                     className="form-input"
-                    placeholder="Search landmark, colony, or address in Bhubaneswar..."
+                    placeholder="Search landmark, colony, or address in India..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); handleSearchLocation(); } }}

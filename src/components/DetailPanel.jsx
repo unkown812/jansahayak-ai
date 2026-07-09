@@ -106,9 +106,9 @@ Write in a professional, polite, and reassuring tone. Tell them that their ticke
     if (!keyToUse) {
       setStreamingText('');
       if (type === 'notice') {
-        textToStream = `OFFICIAL MUNICIPAL DIRECTIVE\nJanSahayak CONSTITUENCY COMMAND HEADQUARTERS\nReference ID: DIR-2026-${grievance.id.split('-')[1]}\nDate: ${nowStr}\n\nTO:\nThe Senior Zonal Officer / Municipal Commissioner\nMunicipal Grievance and Works Committee\nBhubaneswar, Odisha\n\nSUBJECT: URGENT COMPLIANCE AND FIELD INSPECTION ORDER\n\nThis is a formal directive issued from the Member of Parliament Command Office regarding Ticket Reference ${grievance.id} (Category: ${grievance.sector}).\n\nINCIDENT CITATION:\nReporter: ${grievance.reporter}\nLocation: Coordinates (${grievance.coordinates?.lat || 20.2961}, ${grievance.coordinates?.lng || 85.8245})\nEst. Severity: ${grievance.urgency} (Critical Priority Routing)\nReported Detail: "${grievance.translatedDescription}"\n\nRECOMMENDED MUNICIPAL ACTION:\n1. Dispatch local engineering and inspection staff to the coordinates immediately.\n2. Formulate immediate corrective repairs.\n3. Submit a progress log and photographic proof of resolution to this Command Center.\n\nFailure to resolve or submit a justified delay brief within 72 hours will trigger escalation to the District Collector.\n\nBy Order of,\nOffice of the Member of Parliament\nJanSahayak Constituency Command.`;
+        textToStream = `OFFICIAL MUNICIPAL DIRECTIVE\nJanSahayak CONSTITUENCY COMMAND HEADQUARTERS\nReference ID: DIR-2026-${grievance.id.split('-')[1]}\nDate: ${nowStr}\n\nTO:\nThe Senior Zonal Officer / Municipal Commissioner\nMunicipal Grievance and Works Committee\nIndia, Odisha\n\nSUBJECT: URGENT COMPLIANCE AND FIELD INSPECTION ORDER\n\nThis is a formal directive issued from the Member of Parliament Command Office regarding Ticket Reference ${grievance.id} (Category: ${grievance.sector}).\n\nINCIDENT CITATION:\nReporter: ${grievance.reporter}\nLocation: Coordinates (${grievance.coordinates?.lat || 20.2961}, ${grievance.coordinates?.lng || 85.8245})\nEst. Severity: ${grievance.urgency} (Critical Priority Routing)\nReported Detail: "${grievance.translatedDescription}"\n\nRECOMMENDED MUNICIPAL ACTION:\n1. Dispatch local engineering and inspection staff to the coordinates immediately.\n2. Formulate immediate corrective repairs.\n3. Submit a progress log and photographic proof of resolution to this Command Center.\n\nFailure to resolve or submit a justified delay brief within 72 hours will trigger escalation to the District Collector.\n\nBy Order of,\nOffice of the Member of Parliament\nJanSahayak Constituency Command.`;
       } else {
-        textToStream = `OFFICIAL CONSTITUENCY UPDATE\n\nTo:\nMr./Ms. ${grievance.reporter}\nRegistered Citizen\n\nReference: Grievance Ticket ID ${grievance.id}\n\nDear ${grievance.reporter},\n\nWe are writing to update you on the status of your grievance regarding "${grievance.title}" in Bhubaneswar, which you submitted to the JanSahayak portal.\n\nSTATUS PROTOCOL UPDATE:\nYour ticket has been reviewed by the MP Command Center and is officially updated to: [ ${status.toUpperCase()} ].\n\nAction Route:\nWe have drafted and dispatched an Official Directive (Reference DIR-2026-${grievance.id.split('-')[1]}) to the Municipal Commissioner requesting emergency field remediation. The local supervisor has been assigned to audit the location.\n\nYou can monitor the status live on the Citizen Portal using reference ID: ${grievance.id}. Thank you for helping us keep our constituency clean, safe, and progressive.\n\nWarm regards,\nCitizen Redressal Desk\nOffice of the Member of Parliament`;
+        textToStream = `OFFICIAL CONSTITUENCY UPDATE\n\nTo:\nMr./Ms. ${grievance.reporter}\nRegistered Citizen\n\nReference: Grievance Ticket ID ${grievance.id}\n\nDear ${grievance.reporter},\n\nWe are writing to update you on the status of your grievance regarding "${grievance.title}" in India, which you submitted to the JanSahayak portal.\n\nSTATUS PROTOCOL UPDATE:\nYour ticket has been reviewed by the MP Command Center and is officially updated to: [ ${status.toUpperCase()} ].\n\nAction Route:\nWe have drafted and dispatched an Official Directive (Reference DIR-2026-${grievance.id.split('-')[1]}) to the Municipal Commissioner requesting emergency field remediation. The local supervisor has been assigned to audit the location.\n\nYou can monitor the status live on the Citizen Portal using reference ID: ${grievance.id}. Thank you for helping us keep our constituency clean, safe, and progressive.\n\nWarm regards,\nCitizen Redressal Desk\nOffice of the Member of Parliament`;
       }
     }
 
@@ -165,7 +165,7 @@ Write in a professional, polite, and reassuring tone. Tell them that their ticke
             <div class="emblem">🏛️</div>
             <div class="govt">Government of India</div>
             <div class="office">OFFICE OF THE MEMBER OF PARLIAMENT (MPLAD FUNDING)</div>
-            <div class="office">Bhubaneswar Constituency Office, Odisha</div>
+            <div class="office">India Constituency Office, Odisha</div>
           </div>
           
           <div class="ref">
@@ -177,7 +177,7 @@ Write in a professional, polite, and reassuring tone. Tell them that their ticke
 
           <div class="content">
             <p>To,</p>
-            <p><strong>The Commissioner / Chief Engineer,</strong><br/>Bhubaneswar Municipal Corporation (BMC),<br/>Odisha.</p>
+            <p><strong>The Commissioner / Chief Engineer,</strong><br/>India Municipal Corporation (BMC),<br/>Odisha.</p>
             
             <p>Pursuant to powers vested under the Member of Parliament Local Area Development Scheme (MPLADS), funding is hereby authorized and sanctioned for the emergency public development project outlined below, initiated based on active constituent grievances gathered via <strong>JanSahayak AI</strong>:</p>
 
@@ -219,9 +219,9 @@ Write in a professional, polite, and reassuring tone. Tell them that their ticke
             <p><strong>Authorized Signatory</strong></p>
             <br/><br/>
             <p>___________________________</p>
-            <p>Member of Parliament (MP)<br/>Bhubaneswar Constituency</p>
+            <p>Member of Parliament (MP)<br/>India Constituency</p>
             <div class="seal">
-              MP OFFICE SEAL<br/>BHUBANESWAR
+              MP OFFICE SEAL<br/>India
             </div>
           </div>
         </body>

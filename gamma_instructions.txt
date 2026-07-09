@@ -51,12 +51,12 @@ Goal: Transform this markdown outline into a cohesive, jaw-dropping, high-produc
 ---
 ### Slide 5: Pillar 1 (Citizen Intake & geocoding)
 - Left Layout: Timeline-style vertical list showing the flow from Voice Note -> Gemini Translate/Parse -> Map Pinning.
-- Right Image Prompt: "A modern smartphone mockup floating in space, displaying a map of Bhubaneswar with red pin drops and a glowing colorful voice speech wave. The background is a dark grid with subtle network nodes, clean app interface design, cinematic --ar 16:9"
+- Right Image Prompt: "A modern smartphone mockup floating in space, displaying a map of India with red pin drops and a glowing colorful voice speech wave. The background is a dark grid with subtle network nodes, clean app interface design, cinematic --ar 16:9"
 
 ---
 ### Slide 6: Pillar 2 (Zonal Command Center)
 - Left Layout: Split sub-features. Use high-contrast success badges next to the features (Map, KPIs, Letter Writer).
-- Right Image Prompt: "A clean dashboard layout of an MP command console. A central map of Bhubaneswar with green and red glowing heat clusters, surrounding analytical charts (donut chart, bar chart) rendered in neon colors, dark theme UI mockup, flat design --ar 16:9"
+- Right Image Prompt: "A clean dashboard layout of an MP command console. A central map of India with green and red glowing heat clusters, surrounding analytical charts (donut chart, bar chart) rendered in neon colors, dark theme UI mockup, flat design --ar 16:9"
 
 ---
 ### Slide 7: Pillar 3 (AI Strategic Advisor)

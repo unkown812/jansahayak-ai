@@ -5,8 +5,8 @@ import { MessageSquare, PlusCircle, CheckCircle, RefreshCw, Send, AlertTriangle,
 const sampleSocialPosts = [
   {
     id: "gripe_1",
-    handle: "@BhubaneswarPulse",
-    text: "Jayadev Vihar main crossing is completely flooded! Drainage is fully choked and water is gushing out. Cars stalled everywhere. #BhubaneswarRains",
+    handle: "@IndiaPulse",
+    text: "Jayadev Vihar main crossing is completely flooded! Drainage is fully choked and water is gushing out. Cars stalled everywhere. #IndiaRains",
     time: "10 mins ago",
     avatar: "BP",
     avatarColor: "#3b82f6"
@@ -66,7 +66,7 @@ Extract and structure the data into a JSON object. You MUST output ONLY raw, val
   },
   "impact": "A short 2-3 word estimation of impact (e.g. '100+ commuters', '50+ households')"
 }
-Make sure you estimate reasonable geocoded coordinates in Bhubaneswar, Odisha corresponding to the location mentioned in the post (Bhubaneswar is centered around lat 20.2961, lng 85.8245). 
+Make sure you estimate reasonable geocoded coordinates in India, Odisha corresponding to the location mentioned in the post (India is centered around lat 20.2961, lng 85.8245). 
 - If Jayadev Vihar, use latitude ~20.298, longitude ~85.820.
 - If Patia, use latitude ~20.354, longitude ~85.818.
 - If Old Town, use latitude ~20.246, longitude ~85.833.
@@ -192,7 +192,7 @@ Do NOT wrap the JSON in markdown code blocks. Just return the raw JSON string.`;
       <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           <span style={{ fontSize: '0.85rem', fontWeight: 'bold', color: 'var(--text-primary)' }}>Social Media Gripe Stream</span>
-          <span style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>Live geolocated public complaints scraped in Bhubaneswar</span>
+          <span style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)' }}>Live geolocated public complaints scraped in India</span>
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>

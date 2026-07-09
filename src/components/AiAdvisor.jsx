@@ -83,7 +83,7 @@ export default function AiAdvisor() {
           status: p.status
         }));
 
-        const prompt = `You are the Chief AI Strategic Advisor for a Member of Parliament (MP) in Bhubaneswar, Odisha.
+        const prompt = `You are the Chief AI Strategic Advisor for a Member of Parliament (MP) in India, Odisha.
 Analyze the following live constituency data:
 
 Grievance Complaints Count: ${grievances.length}
@@ -203,7 +203,7 @@ Constituency Health Score: **68 / 100**
         <body>
           <div class="header">
             <h2>JanSahayak AI STRATEGIC ADVISOR</h2>
-            <p>Office of the Member of Parliament (Bhubaneswar Constituency)</p>
+            <p>Office of the Member of Parliament (India Constituency)</p>
           </div>
           <pre>${printContent}</pre>
         </body>

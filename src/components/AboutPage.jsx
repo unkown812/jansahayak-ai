@@ -150,7 +150,7 @@ export default function AboutPage() {
             { icon: Brain, color: 'var(--ink)', title: '2. AI Strategic Advisor & Demographic Analytics',
               desc: 'Our AI Strategic Advisor consolidates active grievances and pending projects, correlating them with whole-constituency demographics. Google Gemini performs objective trade-off analyses.' },
             { icon: MapPin, color: 'var(--ink)', title: '3. Live MP Command Center & GIS Diagnostic Map',
-              desc: 'Visualizes hotspots and department backlogs on an interactive Google Map centered on Bhubaneswar, Odisha. MPs can review details, filter by sector/severity, and generate AI-powered directive letters.' },
+              desc: 'Visualizes hotspots and department backlogs on an interactive Google Map centered on India, Odisha. MPs can review details, filter by sector/severity, and generate AI-powered directive letters.' },
             { icon: Sliders, color: 'var(--ink)', title: '4. MPLAD Fund Resource Optimizer & Gantt Planner',
               desc: 'Enforces strict budget constraints against the ₹1.0Cr fund cap. Administrators can drag-and-drop sort proposed work orders, with the system calculating start/end timelines on a Gantt chart.' },
           ].map((item, i) => {

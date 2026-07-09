@@ -41,7 +41,7 @@
 ### The Four Core Product Pillars
 
 1.  **Multilingual Intake & Map Pinning:** Citizens drop exact GPS pins and report in Hindi or regional dialects.
-2.  **Live GIS Zonal Command Center:** Interactive Bhubaneswar map showing real-time grievance hotspot pins and department backlogs.
+2.  **Live GIS Zonal Command Center:** Interactive India map showing real-time grievance hotspot pins and department backlogs.
 3.  **AI Strategic Advisor:** Aggregates database rows and runs Gemini-driven trade-off roadmaps based on sector gaps.
 4.  **MPLAD Resource Optimizer:** Drag-and-drop prioritization conforming to the ₹1.0Cr budget cap with sequential Gantt timelines.
 
@@ -60,7 +60,7 @@
 ## Slide 6: Pillar 2 — Zonal Command Center
 ### Live Diagnostics & Actionable Directives
 
-*   **GIS Diagnostic Map:** Interactive map centered on Bhubaneswar plotting coordinates-based severity pins.
+*   **GIS Diagnostic Map:** Interactive map centered on India plotting coordinates-based severity pins.
 *   **Analytical KPIs:** Apache ECharts horizontal grids and donut charts showing category backlogs.
 *   **AI Letter Writer:** Gemini drafts official directives (e.g., to the Municipal Commissioner) and SMS updates to citizens in 1 click.
 *   **Authentication:** Guarded by secure Supabase Auth and Google OAuth redirection.
