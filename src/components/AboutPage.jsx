@@ -178,45 +178,6 @@ export default function AboutPage() {
           })}
         </div>
       </section>
-
-      {/* Tech Stack */}
-      <section style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-        <h3 style={{ fontSize: '1.2rem', display: 'flex', alignItems: 'center', gap: '8px', fontWeight: 500 }}>
-          <Terminal size={18} />
-          Technology Stack
-        </h3>
-
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-          gap: '16px',
-        }}>
-          {stack.map((item, idx) => (
-            <div key={idx} style={{
-              padding: '20px',
-              borderRadius: 'var(--rounded-md)',
-              border: '1px solid var(--hairline)',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '8px',
-            }}>
-              <span style={{
-                fontSize: '0.875rem',
-                fontWeight: 500,
-                color: 'var(--ink)',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '6px',
-              }}>
-                <Check size={14} style={{ color: 'var(--muted)' }} />
-                {item.name}
-              </span>
-              <p style={{ fontSize: '0.75rem', color: 'var(--body)', lineHeight: 1.5, margin: 0 }}>{item.desc}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
     </div>
   );
 }

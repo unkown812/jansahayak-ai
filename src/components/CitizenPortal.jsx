@@ -6,6 +6,13 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { Mic, MicOff, Sparkles, Send, CheckCircle2, RotateCcw, AlertTriangle, Languages, Navigation, Users, LifeBuoy, ThumbsUp, MessageSquare, TrendingUp, LogIn, User, X } from 'lucide-react';
 
+import iconUrl from 'leaflet/dist/images/marker-icon.png';
+import iconRetinaUrl from 'leaflet/dist/images/marker-icon-2x.png';
+import shadowUrl from 'leaflet/dist/images/marker-shadow.png';
+
+delete L.Icon.Default.prototype._getIconUrl;
+L.Icon.Default.mergeOptions({ iconRetinaUrl, iconUrl, shadowUrl });
+
 function DraggableMarker({ position, onMove }) {
   const map = useMap();
   const [marker, setMarker] = useState(null);
@@ -293,15 +300,21 @@ SUMMARY: [A concise, professional 2-3 sentence English summary explaining the pr
 
 
 
+        const controller = new AbortController();
+        const timeoutMs = 10000;
+        const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+
         const response = await fetch(`https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash-lite:generateContent?key=${keyToUse}`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
+          signal: controller.signal,
           body: JSON.stringify({
             contents: [{
               parts: promptParts
             }]
           })
         });
+        clearTimeout(timeoutId);
         const data = await response.json();
         refinedText = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
 
@@ -313,7 +326,7 @@ SUMMARY: [A concise, professional 2-3 sentence English summary explaining the pr
         const sectorMatch = refinedText.match(/SECTOR:\s*(.*)/i);
         if (sectorMatch) {
           const suggested = sectorMatch[1].trim();
-          const validSectors = ['Infrastructure', 'Water Supply', 'Sanitation', 'Public Health', 'Heritage/Tourism', 'Transport'];
+          const validSectors = ['Infrastructure', 'Water Supply', 'Sanitation', 'Public Health', 'Heritage & Tourism', 'Transport'];
           const matched = validSectors.find(s => s.toLowerCase() === suggested.toLowerCase());
           if (matched) sectorSuggestion = matched;
         }

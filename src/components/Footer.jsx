@@ -52,14 +52,6 @@ export default function Footer() {
           </div>
 
           <div style={colStyle}>
-            <span style={{ fontSize: '0.85rem', fontWeight: 500, color: 'var(--ink)' }}>Technology</span>
-            <span style={{ fontSize: '0.8rem', color: 'var(--muted)' }}>React 19</span>
-            <span style={{ fontSize: '0.8rem', color: 'var(--muted)' }}>Google Gemini 2.5 Flash</span>
-            <span style={{ fontSize: '0.8rem', color: 'var(--muted)' }}>Firebase Auth & Firestore</span>
-            <span style={{ fontSize: '0.8rem', color: 'var(--muted)' }}>OpenStreetMap + Leaflet</span>
-          </div>
-
-          <div style={colStyle}>
             <span style={{ fontSize: '0.85rem', fontWeight: 500, color: 'var(--ink)' }}>Links</span>
             <a href="https://github.com/unkown812/janhayak-ai" target="_blank" rel="noopener noreferrer" style={{ ...linkStyle, textDecoration: 'underline' }}>
               GitHub Repository
@@ -82,7 +74,7 @@ export default function Footer() {
         }}>
           <span>&copy; {new Date().getFullYear()} JanSahayak AI. All rights reserved.</span>
           <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-            Built with <Heart size={10} fill="var(--ink)" style={{ color: 'var(--ink)' }} /> for Code for Communities
+            Built with <Heart size={10} fill="var(--ink)" style={{ color: 'var(--ink)' }} /> for JanSahay
           </span>
         </div>
       </div>
